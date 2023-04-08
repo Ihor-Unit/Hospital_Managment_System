@@ -14,8 +14,3 @@ GraphicsPath^ GetFigurePath(RectangleF rect, float radius) {
 
 	return path;
 }
-
-System::Void MakeFigureRounded()
-{
-	return System::Void();
-}

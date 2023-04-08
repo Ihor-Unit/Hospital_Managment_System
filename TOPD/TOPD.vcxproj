@@ -199,7 +199,9 @@
       <DependentUpon>LoginForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx" />
-    <EmbeddedResource Include="Resource.resx" />
+    <EmbeddedResource Include="Resource.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Res\user.png" />

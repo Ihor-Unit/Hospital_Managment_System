@@ -2,22 +2,10 @@
 #include <map>
 
 
+
 System::Drawing::Drawing2D::GraphicsPath^ GetFigurePath(System::Drawing::RectangleF rect, float radius);
 
-template<typename T>
-System::Void MakeFigureRounded(T^ figure, System::Windows::Forms::PaintEventArgs^ e, float borderRadius = 20.f) {
-	RectangleF rectSurface = RectangleF(0, 0, figure->Width, figure->Height);
-	e->Graphics->SmoothingMode = SmoothingMode::AntiAlias;
-	//Button surface
-	GraphicsPath^ pathSurface = GetFigurePath(rectSurface, borderRadius);
 
-	Pen^ penSurface = gcnew Pen(figure->Parent->BackColor, 2);
-
-	//Button surface
-	figure->Region = gcnew System::Drawing::Region(pathSurface);
-	//Draw surface border for HD result
-	e->Graphics->DrawPath(penSurface, pathSurface);
-}
 
 namespace TOPD {
 	using namespace System;
@@ -29,8 +17,46 @@ namespace TOPD {
 	using namespace System::Drawing::Drawing2D;
 	using namespace DataVisualization::Charting;
 	using namespace System::Collections::Generic;
+	using namespace System::Resources;
 
 	using namespace MySql::Data::MySqlClient;
+
+
+
+	static int Comparator(KeyValuePair<DateTime, size_t> pair1, KeyValuePair<DateTime, size_t> pair2) {
+		return pair1.Key.CompareTo(pair2.Key);
+	}
+	static System::Void SortDict(Dictionary<DateTime, size_t>^ dict) {
+		List<KeyValuePair<DateTime, size_t>>^ list = gcnew List<KeyValuePair<DateTime, size_t>>(dict);
+
+		// sort the list by keys in ascending order
+		list->Sort(gcnew Comparison<KeyValuePair<DateTime, size_t>>(
+			Comparator
+		));
+
+		// clear the dictionary and copy the sorted key-value pairs back to it
+		dict->Clear();
+		for each (KeyValuePair<DateTime, size_t> pair in list) {
+			dict->Add(pair.Key, pair.Value);
+		}
+	}
+
+	template<typename T>
+	System::Void MakeFigureRounded(T^ figure, System::Windows::Forms::PaintEventArgs^ e, float borderRadius = 20.f) {
+		RectangleF rectSurface = RectangleF(0, 0, figure->Width, figure->Height);
+		e->Graphics->SmoothingMode = SmoothingMode::AntiAlias;
+		//Button surface
+		GraphicsPath^ pathSurface = GetFigurePath(rectSurface, borderRadius);
+
+		Pen^ penSurface = gcnew Pen(figure->Parent->BackColor, 2);
+
+		//Button surface
+		figure->Region = gcnew System::Drawing::Region(pathSurface);
+		//Draw surface border for HD result
+		e->Graphics->DrawPath(penSurface, pathSurface);
+	}
+
+
 
 	/// <summary>
 	/// Summary for MyForm
@@ -74,6 +100,21 @@ namespace TOPD {
 	private: System::Windows::Forms::PictureBox^ pictureBox4;
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::Button^ Update;
+	private: System::Windows::Forms::PictureBox^ pictureBox5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ Donut;
 	protected:
@@ -90,12 +131,13 @@ namespace TOPD {
 	private: System::Windows::Forms::Button^ button1;
 
 	private: System::Windows::Forms::DataGridView^ dataGridView1;
+	private: System::ComponentModel::IContainer^ components;
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container^ components;
+
 
 		Dictionary<DateTime, size_t>^ dbDateTime;
 		Dictionary<String^, size_t>^ dbFieldRow;
@@ -141,6 +183,7 @@ namespace TOPD {
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->panel3 = (gcnew System::Windows::Forms::Panel());
 			this->panel4 = (gcnew System::Windows::Forms::Panel());
+			this->pictureBox5 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox4 = (gcnew System::Windows::Forms::PictureBox());
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
@@ -166,6 +209,7 @@ namespace TOPD {
 			this->Military->SuspendLayout();
 			this->panel3->SuspendLayout();
 			this->panel4->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
@@ -245,6 +289,7 @@ namespace TOPD {
 			this->dataGridView1->TabIndex = 3;
 			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
 			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
+			this->dataGridView1->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellValueChanged);
 			this->dataGridView1->RowLeave += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowLeave);
 			this->dataGridView1->RowsRemoved += gcnew System::Windows::Forms::DataGridViewRowsRemovedEventHandler(this, &MyForm::dataGridView1_RowsRemoved);
 			this->dataGridView1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MyForm::dataGridView1_Scroll);
@@ -414,6 +459,7 @@ namespace TOPD {
 			// panel4
 			// 
 			this->panel4->BackColor = System::Drawing::Color::White;
+			this->panel4->Controls->Add(this->pictureBox5);
 			this->panel4->Controls->Add(this->pictureBox3);
 			this->panel4->Controls->Add(this->pictureBox4);
 			this->panel4->Controls->Add(this->pictureBox2);
@@ -426,6 +472,16 @@ namespace TOPD {
 			this->panel4->Size = System::Drawing::Size(241, 412);
 			this->panel4->TabIndex = 7;
 			this->panel4->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel4_Paint);
+			// 
+			// pictureBox5
+			// 
+			this->pictureBox5->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox5.Image")));
+			this->pictureBox5->Location = System::Drawing::Point(13, 334);
+			this->pictureBox5->Name = L"pictureBox5";
+			this->pictureBox5->Size = System::Drawing::Size(61, 58);
+			this->pictureBox5->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBox5->TabIndex = 3;
+			this->pictureBox5->TabStop = false;
 			// 
 			// pictureBox3
 			// 
@@ -470,7 +526,7 @@ namespace TOPD {
 			this->Update->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Update->ForeColor = System::Drawing::Color::White;
-			this->Update->Location = System::Drawing::Point(81, 301);
+			this->Update->Location = System::Drawing::Point(81, 334);
 			this->Update->Name = L"Update";
 			this->Update->Size = System::Drawing::Size(144, 58);
 			this->Update->TabIndex = 1;
@@ -833,6 +889,7 @@ namespace TOPD {
 			this->panel3->ResumeLayout(false);
 			this->panel3->PerformLayout();
 			this->panel4->ResumeLayout(false);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox4))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
@@ -885,8 +942,12 @@ namespace TOPD {
 	}
 	private: System::Void UpdateRatioChart() {
 		Ratio->Series["Series1"]->Points->Clear();
-		Ratio->Series["Series1"]->Points->AddXY(L"Чоловіки", dbGenderRow[L"Ч"]);
-		Ratio->Series["Series1"]->Points->AddXY(L"Жінки", dbGenderRow[L"Ж"]);
+		if(dbGenderRow->ContainsKey(L"Ч")) {
+			Ratio->Series["Series1"]->Points->AddXY(L"Чоловіки", dbGenderRow[L"Ч"]);
+		}
+		if (dbGenderRow->ContainsKey(L"Ж")) {
+			Ratio->Series["Series1"]->Points->AddXY(L"Жінки", dbGenderRow[L"Ж"]);
+		}
 	}
 	private: System::Void UpdateDonutChart() {
 		Donut->Series["Series1"]->Points->Clear();
@@ -975,6 +1036,11 @@ namespace TOPD {
 			iter = dbDateTime->Count;
 		}
 
+
+		//SortDict(dbDateTime);
+
+
+
 		auto key = dbDateTime->Keys->GetEnumerator();
 		auto val = dbDateTime->Values->GetEnumerator();
 		key.MoveNext();
@@ -1043,7 +1109,11 @@ namespace TOPD {
 
 		//the query string
 		da->Fill(tAllData);
+		da->UpdateBatchSize = 1;
 		build = gcnew MySqlCommandBuilder(da);
+		da->UpdateCommand = build->GetUpdateCommand();
+		da->DeleteCommand = build->GetDeleteCommand();
+		da->InsertCommand = build->GetInsertCommand();
 		
 		UpdateDataTables();
 
@@ -1057,6 +1127,7 @@ namespace TOPD {
 		UpdateRatioChart();
 
 		UpdateDonutChart();
+
 	}
 
 
@@ -1190,46 +1261,28 @@ namespace TOPD {
 
 		ShowAll();
 	}
-	private: int currRow{-1};
-	private: System::Void dataGridView1_CellEndEdit(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-		int colIdx = e->ColumnIndex;
-		int rowIdx = e->RowIndex;
-		//auto a = dataGridView1->Rows[rowIdx]->Cells[colIdx]->Value;
-		//tAllData->Rows->Add(8, L"Петр Вишовок", L"Цивільний", 54, L'Ч', L"Нехтування правилами безпеки", L"Відчленування руки", L"Опреація", Convert::ToDateTime(L"2023-08-01"), 7, 1, 101);
-		//auto s = tAllData->Rows[rowIdx]->RowState;
+
+	//call the Update function twice to make the tAllData commit changes
+	private: System::Void dataGridView1_CellValueChanged(Object^ sender, DataGridViewCellEventArgs^ e) {
+		//dataGridView1->EndEdit();
+		//dataGridView1->Invalidate();
 		
-		//tAllData->Rows[rowIdx]->EndEdit();
+		DataGridViewRow^ row = dataGridView1->Rows[e->RowIndex];
+		tAllData->Rows[e->RowIndex]->ItemArray[e->ColumnIndex] = row->Cells[e->ColumnIndex]->Value->ToString()->Trim();
+		dataGridView1->EndEdit();
+	}
+	private: System::Void dataGridView1_CellEndEdit(Object^ sender, DataGridViewCellEventArgs^ e) {		
+		
+		auto u = da->UpdateCommand;
 		auto succ = da->Update(tAllData);//can't update primary keys
 	}
-	private: System::Void dataGridView1_RowLeave(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-		int colIdx = e->ColumnIndex;
-		int rowIdx = e->RowIndex;
 
-		//DataTable^ newTable = gcnew DataTable();
-		////add columns
-		//for each (DataGridViewColumn ^ column in updGrid->Columns) {
-		//	newTable->Columns->Add(column->HeaderText, column->ValueType);
-		//}
-		////add data to the rows
-		//for each (DataGridViewRow ^ row in updGrid->Rows)		{
-		//	DataRow^ drow = newTable->NewRow();
-		//
-		//	for (int i = 0; i < newTable->Columns->Count; i++)			{
-		//		if(row->Cells[i]->Value != nullptr)
-		//			drow[i] = row->Cells[i]->Value;
-		//	}
-		//	if (drow[0]->ToString() != L"") {
-		//		newTable->Rows->Add(drow);//add only meaningful rows
-		//	}
-		//}
-		
-	}
 	private: System::Void dataGridView1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) {
 		dataGridView1->Refresh();
 	}
 	private: System::Void dataGridView1_CellBeginEdit(System::Object^ sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^ e) {
-		int colIdx = e->ColumnIndex;
-		int rowIdx = e->RowIndex;
+
+		auto succ = da->Update(tAllData);//can't update primary keys
 		// Check if the cell belongs to the specific row you want to restrict
 		if (e->ColumnIndex == 0){
 			e->Cancel = true;
@@ -1241,10 +1294,12 @@ namespace TOPD {
 		}
 	}
 	private: System::Void Update_Click(System::Object^ sender, System::EventArgs^ e) {
-		//MySqlDataAdapter^ adap = SelectTheQuery(conn);
-		//adap->Fill();
+		da->Update(tAllData);
 		tAllData->Clear();
 		da->Fill(tAllData);
+	}
+	private: System::Void dataGridView1_RowLeave(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		//auto succ = da->Update(tAllData);//can't update primary keys
 	}
 };
 }
