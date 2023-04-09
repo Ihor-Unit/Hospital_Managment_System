@@ -289,10 +289,11 @@ namespace TOPD {
 			this->dataGridView1->TabIndex = 3;
 			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
 			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
-			this->dataGridView1->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellValueChanged);
+			this->dataGridView1->RowEnter += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowEnter);
 			this->dataGridView1->RowLeave += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowLeave);
 			this->dataGridView1->RowsRemoved += gcnew System::Windows::Forms::DataGridViewRowsRemovedEventHandler(this, &MyForm::dataGridView1_RowsRemoved);
 			this->dataGridView1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MyForm::dataGridView1_Scroll);
+			this->dataGridView1->SelectionChanged += gcnew System::EventHandler(this, &MyForm::dataGridView1_SelectionChanged);
 			this->dataGridView1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::dataGridView1_Paint);
 			// 
 			// Donut
@@ -530,7 +531,7 @@ namespace TOPD {
 			this->Update->Name = L"Update";
 			this->Update->Size = System::Drawing::Size(144, 58);
 			this->Update->TabIndex = 1;
-			this->Update->Text = L"Оновити таблицю";
+			this->Update->Text = L"Оновити дані";
 			this->Update->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
 			this->Update->UseVisualStyleBackColor = false;
 			this->Update->Click += gcnew System::EventHandler(this, &MyForm::Update_Click);
@@ -618,6 +619,9 @@ namespace TOPD {
 			this->chart2->BorderlineColor = System::Drawing::SystemColors::Control;
 			this->chart2->BorderSkin->PageColor = System::Drawing::SystemColors::Control;
 			chartArea2->AxisX->MajorGrid->Enabled = false;
+			chartArea2->AxisY->Interval = 1;
+			chartArea2->AxisY->IntervalAutoMode = System::Windows::Forms::DataVisualization::Charting::IntervalAutoMode::VariableCount;
+			chartArea2->AxisY->IntervalType = System::Windows::Forms::DataVisualization::Charting::DateTimeIntervalType::Number;
 			chartArea2->AxisY->MajorGrid->Enabled = false;
 			chartArea2->AxisY->MajorTickMark->LineWidth = 0;
 			chartArea2->BackColor = System::Drawing::Color::White;
@@ -1261,28 +1265,21 @@ namespace TOPD {
 
 		ShowAll();
 	}
-
-	//call the Update function twice to make the tAllData commit changes
-	private: System::Void dataGridView1_CellValueChanged(Object^ sender, DataGridViewCellEventArgs^ e) {
-		//dataGridView1->EndEdit();
-		//dataGridView1->Invalidate();
-		
-		DataGridViewRow^ row = dataGridView1->Rows[e->RowIndex];
-		tAllData->Rows[e->RowIndex]->ItemArray[e->ColumnIndex] = row->Cells[e->ColumnIndex]->Value->ToString()->Trim();
-		dataGridView1->EndEdit();
-	}
-	private: System::Void dataGridView1_CellEndEdit(Object^ sender, DataGridViewCellEventArgs^ e) {		
-		
-		auto u = da->UpdateCommand;
-		auto succ = da->Update(tAllData);//can't update primary keys
-	}
-
 	private: System::Void dataGridView1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) {
 		dataGridView1->Refresh();
 	}
-	private: System::Void dataGridView1_CellBeginEdit(System::Object^ sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^ e) {
+	private: System::Void Update_Click(System::Object^ sender, System::EventArgs^ e) {
+		da->Update(tAllData);
+		tAllData->Clear();
+		da->Fill(tAllData);
+	}
+	private: System::Void dataGridView1_CellEndEdit(Object^ sender, DataGridViewCellEventArgs^ e) {		
+		//dataGridView1->EndEdit();
+		//dataGridView1->Invalidate();
+		//auto succ = da->Update(tAllData);//can't update primary keys
+	}
 
-		auto succ = da->Update(tAllData);//can't update primary keys
+	private: System::Void dataGridView1_CellBeginEdit(System::Object^ sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^ e) {
 		// Check if the cell belongs to the specific row you want to restrict
 		if (e->ColumnIndex == 0){
 			e->Cancel = true;
@@ -1293,13 +1290,20 @@ namespace TOPD {
 			da->Update(tAllData);
 		}
 	}
-	private: System::Void Update_Click(System::Object^ sender, System::EventArgs^ e) {
-		da->Update(tAllData);
-		tAllData->Clear();
-		da->Fill(tAllData);
-	}
+	private: int lastRowSelected{ -1 };
 	private: System::Void dataGridView1_RowLeave(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-		//auto succ = da->Update(tAllData);//can't update primary keys
+		lastRowSelected = e->RowIndex;
+		dataGridView1->EndEdit();
+		dataGridView1->CommitEdit(DataGridViewDataErrorContexts());
+		auto succ = da->Update(tAllData);//can't update primary keys
+	}
+	private: System::Void dataGridView1_RowEnter(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+	
+	}
+	private: System::Void dataGridView1_SelectionChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (lastRowSelected == dataGridView1->Rows->Count - 2) {
+			dataGridView1->CurrentCell = dataGridView1->Rows[lastRowSelected]->Cells[1];
+		}
 	}
 };
 }
