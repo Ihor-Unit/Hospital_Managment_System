@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1EF12DDDE93049E99EFDED0AF06E9E31"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_20E6AE1901A8441CAD0C48EB9658EE74"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -364,7 +370,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:ANY"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.8"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=863262"
                 }
@@ -407,6 +413,26 @@
                 }
             "SourcePath" = "8:C:\\Program Files (x86)\\Reference Assemblies\\Microsoft\\Framework\\.NETFramework\\v4.7.2\\System.Windows.Forms.dll"
             "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_63A3AEAFC3DC4EA5975388ED3D340729"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1EF12DDDE93049E99EFDED0AF06E9E31"
+            {
+            "SourcePath" = "8:..\\Res\\schedule.ico"
+            "TargetName" = "8:schedule.ico"
             "Tag" = "8:"
             "Folder" = "8:_63A3AEAFC3DC4EA5975388ED3D340729"
             "Condition" = "8:"
@@ -1003,9 +1029,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Installator"
-        "ProductCode" = "8:{9E8B293E-2931-43C9-A04D-F08FCB732928}"
-        "PackageCode" = "8:{4500FA48-09D2-4EFB-A646-7020194899BC}"
+        "ProductName" = "8:Hospital managment system"
+        "ProductCode" = "8:{95A5D0D5-F607-405D-B67A-6A248DA83B2F}"
+        "PackageCode" = "8:{0AA973F3-C780-4A57-9BDF-759295656F60}"
         "UpgradeCode" = "8:{6D2A0D6A-77A3-422D-8007-2E82AFF3231E}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -1016,7 +1042,7 @@
         "Manufacturer" = "8:SoloCompany"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Installator"
+        "Title" = "8:Title of an installer"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Ihor Protsyshyn"
         "Keywords" = "8:"
@@ -1125,6 +1151,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_65762D9BCA5C41F5AADD0AE646A63168"
+            {
+            "Name" = "8:Hospital managment system"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_20E6AE1901A8441CAD0C48EB9658EE74"
+            "Folder" = "8:_6E1D8607933B49EAB5BA14A3AAFA698D"
+            "WorkingFolder" = "8:_63A3AEAFC3DC4EA5975388ED3D340729"
+            "Icon" = "8:_1EF12DDDE93049E99EFDED0AF06E9E31"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {

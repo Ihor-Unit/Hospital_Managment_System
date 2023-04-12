@@ -101,6 +101,13 @@ namespace TOPD {
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::Button^ Update;
 	private: System::Windows::Forms::PictureBox^ pictureBox5;
+	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Label^ label8;
+	private: System::Windows::Forms::Button^ button9;
+	private: System::Windows::Forms::Button^ button10;
+	private: System::Windows::Forms::Button^ button11;
+	private: System::Windows::Forms::Panel^ panel1;
+	private: System::Windows::Forms::Panel^ panel2;
 
 
 
@@ -139,17 +146,26 @@ namespace TOPD {
 		/// </summary>
 
 
-		Dictionary<DateTime, size_t>^ dbDateTime;
-		Dictionary<String^, size_t>^ dbFieldRow;
-		Dictionary<String^, size_t>^ dbDiseaseRow;
-		Dictionary<String^, size_t>^ dbGenderRow;
-		DataTable^ tAllData;
-		DataTable^ tCivilData;
-		DataTable^ tMilitaryData;
-		MySqlConnection^ conn;
-		MySqlDataAdapter^ da;
-		DataRow^ updateRow;
-		MySqlCommandBuilder^ build;
+		Dictionary<DateTime, size_t>^ dbDateTime = nullptr;
+		Dictionary<String^, size_t>^ dbFieldRow = nullptr;
+		Dictionary<String^, size_t>^ dbDiseaseRow = nullptr;
+		Dictionary<String^, size_t>^ dbGenderRow = nullptr;
+		DataTable^ tAllData = nullptr;
+		DataTable^ tCivilData = nullptr;
+		DataTable^ tMilitaryData = nullptr;
+		MySqlConnection^ conn = nullptr;
+		MySqlDataAdapter^ patientsDA = nullptr;
+		MySqlDataAdapter^ doctorsDA = nullptr;
+		MySqlDataAdapter^ roomsDA = nullptr;
+		DataRow^ updateRow = nullptr;
+		MySqlCommandBuilder^ build = nullptr;
+
+		array<Button^>^ arrButStat = nullptr;
+		array<Button^>^ arrButLeftSide = nullptr;
+		array<Button^>^ arrButLoverSide = nullptr;
+
+		DataTable^ tDoctorData = nullptr;
+		DataTable^ tRoomsData = nullptr;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -158,19 +174,19 @@ namespace TOPD {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle3 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle16 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle17 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle18 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea16 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend16 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series16 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^ legend2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea3 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Legend^ legend3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea17 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend17 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series17 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea18 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend18 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series18 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 			this->Donut = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
@@ -193,6 +209,7 @@ namespace TOPD {
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->panel6 = (gcnew System::Windows::Forms::Panel());
+			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->chart2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->Ratio = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->panel7 = (gcnew System::Windows::Forms::Panel());
@@ -203,6 +220,12 @@ namespace TOPD {
 			this->button6 = (gcnew System::Windows::Forms::Button());
 			this->button7 = (gcnew System::Windows::Forms::Button());
 			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->button9 = (gcnew System::Windows::Forms::Button());
+			this->button10 = (gcnew System::Windows::Forms::Button());
+			this->button11 = (gcnew System::Windows::Forms::Button());
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Donut))->BeginInit();
 			this->Civil->SuspendLayout();
@@ -218,6 +241,7 @@ namespace TOPD {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Ratio))->BeginInit();
 			this->panel7->SuspendLayout();
+			this->panel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// button1
@@ -247,49 +271,48 @@ namespace TOPD {
 			this->dataGridView1->BackgroundColor = System::Drawing::Color::White;
 			this->dataGridView1->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->dataGridView1->CellBorderStyle = System::Windows::Forms::DataGridViewCellBorderStyle::SingleHorizontal;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			dataGridViewCellStyle16->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle16->BackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle16->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::Color::Silver;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle16->ForeColor = System::Drawing::Color::Silver;
+			dataGridViewCellStyle16->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle16->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle16->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->dataGridView1->ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
 			this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Window;
-			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			dataGridViewCellStyle17->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle17->BackColor = System::Drawing::SystemColors::Window;
+			dataGridViewCellStyle17->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::ControlText;
-			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
+			dataGridViewCellStyle17->ForeColor = System::Drawing::SystemColors::ControlText;
+			dataGridViewCellStyle17->SelectionBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::Color::White;
-			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
-			this->dataGridView1->DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle17->SelectionForeColor = System::Drawing::Color::White;
+			dataGridViewCellStyle17->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
+			this->dataGridView1->DefaultCellStyle = dataGridViewCellStyle17;
 			this->dataGridView1->EditMode = System::Windows::Forms::DataGridViewEditMode::EditOnEnter;
 			this->dataGridView1->EnableHeadersVisualStyles = false;
 			this->dataGridView1->GridColor = System::Drawing::Color::LightGray;
-			this->dataGridView1->Location = System::Drawing::Point(0, 544);
+			this->dataGridView1->Location = System::Drawing::Point(0, 598);
 			this->dataGridView1->Name = L"dataGridView1";
 			this->dataGridView1->RowHeadersBorderStyle = System::Windows::Forms::DataGridViewHeaderBorderStyle::Single;
-			dataGridViewCellStyle3->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle3->BackColor = System::Drawing::Color::White;
-			dataGridViewCellStyle3->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			dataGridViewCellStyle18->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle18->BackColor = System::Drawing::Color::White;
+			dataGridViewCellStyle18->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			dataGridViewCellStyle3->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle3->SelectionBackColor = System::Drawing::SystemColors::Highlight;
-			dataGridViewCellStyle3->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle3->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->dataGridView1->RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle18->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle18->SelectionBackColor = System::Drawing::SystemColors::Highlight;
+			dataGridViewCellStyle18->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle18->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->dataGridView1->RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
 			this->dataGridView1->RowHeadersWidth = 51;
 			this->dataGridView1->RowTemplate->Height = 24;
 			this->dataGridView1->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
-			this->dataGridView1->Size = System::Drawing::Size(1767, 247);
+			this->dataGridView1->Size = System::Drawing::Size(1767, 274);
 			this->dataGridView1->TabIndex = 3;
 			this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
-			this->dataGridView1->CellEndEdit += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_CellEndEdit);
-			this->dataGridView1->RowEnter += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowEnter);
+			this->dataGridView1->DataError += gcnew System::Windows::Forms::DataGridViewDataErrorEventHandler(this, &MyForm::dataGridView1_DataError);
 			this->dataGridView1->RowLeave += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowLeave);
 			this->dataGridView1->RowsRemoved += gcnew System::Windows::Forms::DataGridViewRowsRemovedEventHandler(this, &MyForm::dataGridView1_RowsRemoved);
 			this->dataGridView1->Scroll += gcnew System::Windows::Forms::ScrollEventHandler(this, &MyForm::dataGridView1_Scroll);
@@ -302,21 +325,21 @@ namespace TOPD {
 			this->Donut->BackSecondaryColor = System::Drawing::SystemColors::Control;
 			this->Donut->BorderlineColor = System::Drawing::SystemColors::Control;
 			this->Donut->BorderSkin->PageColor = System::Drawing::SystemColors::Control;
-			chartArea1->AxisY->MajorTickMark->LineWidth = 0;
-			chartArea1->BackColor = System::Drawing::Color::White;
-			chartArea1->Name = L"ChartArea1";
-			this->Donut->ChartAreas->Add(chartArea1);
-			legend1->Alignment = System::Drawing::StringAlignment::Center;
-			legend1->BackColor = System::Drawing::Color::White;
-			legend1->Docking = System::Windows::Forms::DataVisualization::Charting::Docking::Bottom;
-			legend1->Font = (gcnew System::Drawing::Font(L"Century Gothic", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			chartArea16->AxisY->MajorTickMark->LineWidth = 0;
+			chartArea16->BackColor = System::Drawing::Color::White;
+			chartArea16->Name = L"ChartArea1";
+			this->Donut->ChartAreas->Add(chartArea16);
+			legend16->Alignment = System::Drawing::StringAlignment::Center;
+			legend16->BackColor = System::Drawing::Color::White;
+			legend16->Docking = System::Windows::Forms::DataVisualization::Charting::Docking::Bottom;
+			legend16->Font = (gcnew System::Drawing::Font(L"Century Gothic", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			legend1->InterlacedRowsColor = System::Drawing::SystemColors::Control;
-			legend1->IsTextAutoFit = false;
-			legend1->LegendStyle = System::Windows::Forms::DataVisualization::Charting::LegendStyle::Column;
-			legend1->Name = L"Legend1";
-			legend1->TitleBackColor = System::Drawing::SystemColors::Control;
-			this->Donut->Legends->Add(legend1);
+			legend16->InterlacedRowsColor = System::Drawing::SystemColors::Control;
+			legend16->IsTextAutoFit = false;
+			legend16->LegendStyle = System::Windows::Forms::DataVisualization::Charting::LegendStyle::Column;
+			legend16->Name = L"Legend1";
+			legend16->TitleBackColor = System::Drawing::SystemColors::Control;
+			this->Donut->Legends->Add(legend16);
 			this->Donut->Location = System::Drawing::Point(1450, 72);
 			this->Donut->Name = L"Donut";
 			this->Donut->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::None;
@@ -325,26 +348,26 @@ namespace TOPD {
 					System::Drawing::Color::LightGreen, System::Drawing::Color::DodgerBlue, System::Drawing::Color::LightSeaGreen, System::Drawing::Color::LightPink,
 					System::Drawing::Color::ForestGreen, System::Drawing::Color::MediumSlateBlue
 			};
-			series1->BackImageTransparentColor = System::Drawing::SystemColors::Control;
-			series1->BackSecondaryColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+			series16->BackImageTransparentColor = System::Drawing::SystemColors::Control;
+			series16->BackSecondaryColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			series1->BorderColor = System::Drawing::Color::White;
-			series1->BorderWidth = 3;
-			series1->ChartArea = L"ChartArea1";
-			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Doughnut;
-			series1->Color = System::Drawing::Color::White;
-			series1->CustomProperties = L"PieLineColor=Control, CollectedColor=Control";
-			series1->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			series16->BorderColor = System::Drawing::Color::White;
+			series16->BorderWidth = 3;
+			series16->ChartArea = L"ChartArea1";
+			series16->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Doughnut;
+			series16->Color = System::Drawing::Color::White;
+			series16->CustomProperties = L"PieLineColor=Control, CollectedColor=Control";
+			series16->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			series1->IsValueShownAsLabel = true;
-			series1->LabelForeColor = System::Drawing::Color::White;
-			series1->Legend = L"Legend1";
-			series1->MarkerBorderColor = System::Drawing::Color::White;
-			series1->Name = L"Series1";
-			series1->ShadowColor = System::Drawing::SystemColors::Control;
-			series1->YValuesPerPoint = 3;
-			this->Donut->Series->Add(series1);
-			this->Donut->Size = System::Drawing::Size(317, 466);
+			series16->IsValueShownAsLabel = true;
+			series16->LabelForeColor = System::Drawing::Color::White;
+			series16->Legend = L"Legend1";
+			series16->MarkerBorderColor = System::Drawing::Color::White;
+			series16->Name = L"Series1";
+			series16->ShadowColor = System::Drawing::SystemColors::Control;
+			series16->YValuesPerPoint = 3;
+			this->Donut->Series->Add(series16);
+			this->Donut->Size = System::Drawing::Size(317, 520);
 			this->Donut->TabIndex = 4;
 			this->Donut->Text = L"Donut";
 			this->Donut->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::Donut_Paint);
@@ -460,6 +483,7 @@ namespace TOPD {
 			// panel4
 			// 
 			this->panel4->BackColor = System::Drawing::Color::White;
+			this->panel4->Controls->Add(this->panel2);
 			this->panel4->Controls->Add(this->pictureBox5);
 			this->panel4->Controls->Add(this->pictureBox3);
 			this->panel4->Controls->Add(this->pictureBox4);
@@ -470,16 +494,16 @@ namespace TOPD {
 			this->panel4->Controls->Add(this->button1);
 			this->panel4->Location = System::Drawing::Point(0, 124);
 			this->panel4->Name = L"panel4";
-			this->panel4->Size = System::Drawing::Size(241, 412);
+			this->panel4->Size = System::Drawing::Size(241, 467);
 			this->panel4->TabIndex = 7;
 			this->panel4->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel4_Paint);
 			// 
 			// pictureBox5
 			// 
 			this->pictureBox5->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox5.Image")));
-			this->pictureBox5->Location = System::Drawing::Point(13, 334);
+			this->pictureBox5->Location = System::Drawing::Point(19, 395);
 			this->pictureBox5->Name = L"pictureBox5";
-			this->pictureBox5->Size = System::Drawing::Size(61, 58);
+			this->pictureBox5->Size = System::Drawing::Size(48, 45);
 			this->pictureBox5->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
 			this->pictureBox5->TabIndex = 3;
 			this->pictureBox5->TabStop = false;
@@ -527,11 +551,11 @@ namespace TOPD {
 			this->Update->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Update->ForeColor = System::Drawing::Color::White;
-			this->Update->Location = System::Drawing::Point(81, 334);
+			this->Update->Location = System::Drawing::Point(80, 387);
 			this->Update->Name = L"Update";
 			this->Update->Size = System::Drawing::Size(144, 58);
 			this->Update->TabIndex = 1;
-			this->Update->Text = L"Оновити дані";
+			this->Update->Text = L"Зберегти додані рядки";
 			this->Update->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
 			this->Update->UseVisualStyleBackColor = false;
 			this->Update->Click += gcnew System::EventHandler(this, &MyForm::Update_Click);
@@ -607,10 +631,31 @@ namespace TOPD {
 			this->panel6->BackColor = System::Drawing::Color::White;
 			this->panel6->Controls->Add(this->label5);
 			this->panel6->Controls->Add(this->pictureBox1);
+			this->panel6->Controls->Add(this->button3);
 			this->panel6->Location = System::Drawing::Point(0, -7);
 			this->panel6->Name = L"panel6";
 			this->panel6->Size = System::Drawing::Size(1767, 73);
 			this->panel6->TabIndex = 8;
+			// 
+			// button3
+			// 
+			this->button3->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->button3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->button3->FlatAppearance->BorderSize = 0;
+			this->button3->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button3->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button3->ForeColor = System::Drawing::Color::White;
+			this->button3->Location = System::Drawing::Point(687, 12);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(417, 58);
+			this->button3->TabIndex = 1;
+			this->button3->Text = L"Оновити всі метрики відповідно до таблиці";
+			this->button3->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
+			this->button3->UseVisualStyleBackColor = false;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			this->button3->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::button3_Paint);
 			// 
 			// chart2
 			// 
@@ -618,50 +663,50 @@ namespace TOPD {
 			this->chart2->BackSecondaryColor = System::Drawing::SystemColors::Control;
 			this->chart2->BorderlineColor = System::Drawing::SystemColors::Control;
 			this->chart2->BorderSkin->PageColor = System::Drawing::SystemColors::Control;
-			chartArea2->AxisX->MajorGrid->Enabled = false;
-			chartArea2->AxisY->Interval = 1;
-			chartArea2->AxisY->IntervalAutoMode = System::Windows::Forms::DataVisualization::Charting::IntervalAutoMode::VariableCount;
-			chartArea2->AxisY->IntervalType = System::Windows::Forms::DataVisualization::Charting::DateTimeIntervalType::Number;
-			chartArea2->AxisY->MajorGrid->Enabled = false;
-			chartArea2->AxisY->MajorTickMark->LineWidth = 0;
-			chartArea2->BackColor = System::Drawing::Color::White;
-			chartArea2->Name = L"ChartArea1";
-			this->chart2->ChartAreas->Add(chartArea2);
-			legend2->Alignment = System::Drawing::StringAlignment::Center;
-			legend2->BackColor = System::Drawing::Color::White;
-			legend2->Docking = System::Windows::Forms::DataVisualization::Charting::Docking::Bottom;
-			legend2->Enabled = false;
-			legend2->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			chartArea17->AxisX->MajorGrid->Enabled = false;
+			chartArea17->AxisY->Interval = 1;
+			chartArea17->AxisY->IntervalAutoMode = System::Windows::Forms::DataVisualization::Charting::IntervalAutoMode::VariableCount;
+			chartArea17->AxisY->IntervalType = System::Windows::Forms::DataVisualization::Charting::DateTimeIntervalType::Number;
+			chartArea17->AxisY->MajorGrid->Enabled = false;
+			chartArea17->AxisY->MajorTickMark->LineWidth = 0;
+			chartArea17->BackColor = System::Drawing::Color::White;
+			chartArea17->Name = L"ChartArea1";
+			this->chart2->ChartAreas->Add(chartArea17);
+			legend17->Alignment = System::Drawing::StringAlignment::Center;
+			legend17->BackColor = System::Drawing::Color::White;
+			legend17->Docking = System::Windows::Forms::DataVisualization::Charting::Docking::Bottom;
+			legend17->Enabled = false;
+			legend17->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			legend2->InterlacedRowsColor = System::Drawing::SystemColors::Control;
-			legend2->IsTextAutoFit = false;
-			legend2->Name = L"Legend1";
-			legend2->TitleBackColor = System::Drawing::SystemColors::Control;
-			this->chart2->Legends->Add(legend2);
+			legend17->InterlacedRowsColor = System::Drawing::SystemColors::Control;
+			legend17->IsTextAutoFit = false;
+			legend17->Name = L"Legend1";
+			legend17->TitleBackColor = System::Drawing::SystemColors::Control;
+			this->chart2->Legends->Add(legend17);
 			this->chart2->Location = System::Drawing::Point(280, 309);
 			this->chart2->Name = L"chart2";
-			series2->BackImageTransparentColor = System::Drawing::SystemColors::Control;
-			series2->BackSecondaryColor = System::Drawing::SystemColors::Control;
-			series2->BorderColor = System::Drawing::SystemColors::Control;
-			series2->BorderWidth = 3;
-			series2->ChartArea = L"ChartArea1";
-			series2->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Spline;
-			series2->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			series17->BackImageTransparentColor = System::Drawing::SystemColors::Control;
+			series17->BackSecondaryColor = System::Drawing::SystemColors::Control;
+			series17->BorderColor = System::Drawing::SystemColors::Control;
+			series17->BorderWidth = 3;
+			series17->ChartArea = L"ChartArea1";
+			series17->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Spline;
+			series17->Color = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			series2->CustomProperties = L"PieLineColor=Control, CollectedColor=Control";
-			series2->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			series17->CustomProperties = L"PieLineColor=Control, CollectedColor=Control";
+			series17->Font = (gcnew System::Drawing::Font(L"Arial Rounded MT Bold", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			series2->IsValueShownAsLabel = true;
-			series2->LabelForeColor = System::Drawing::Color::White;
-			series2->Legend = L"Legend1";
-			series2->MarkerBorderColor = System::Drawing::Color::White;
-			series2->MarkerBorderWidth = 2;
-			series2->MarkerSize = 9;
-			series2->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Circle;
-			series2->Name = L"Series1";
-			series2->ShadowColor = System::Drawing::SystemColors::Control;
-			series2->YValuesPerPoint = 3;
-			this->chart2->Series->Add(series2);
+			series17->IsValueShownAsLabel = true;
+			series17->LabelForeColor = System::Drawing::Color::White;
+			series17->Legend = L"Legend1";
+			series17->MarkerBorderColor = System::Drawing::Color::White;
+			series17->MarkerBorderWidth = 2;
+			series17->MarkerSize = 9;
+			series17->MarkerStyle = System::Windows::Forms::DataVisualization::Charting::MarkerStyle::Circle;
+			series17->Name = L"Series1";
+			series17->ShadowColor = System::Drawing::SystemColors::Control;
+			series17->YValuesPerPoint = 3;
+			this->chart2->Series->Add(series17);
 			this->chart2->Size = System::Drawing::Size(1164, 229);
 			this->chart2->TabIndex = 4;
 			this->chart2->Text = L"Donut";
@@ -673,53 +718,54 @@ namespace TOPD {
 			this->Ratio->BackSecondaryColor = System::Drawing::SystemColors::Control;
 			this->Ratio->BorderlineColor = System::Drawing::SystemColors::Control;
 			this->Ratio->BorderSkin->PageColor = System::Drawing::SystemColors::Control;
-			chartArea3->AxisX->LineWidth = 0;
-			chartArea3->AxisX->MajorGrid->Enabled = false;
-			chartArea3->AxisX->MajorTickMark->Enabled = false;
-			chartArea3->AxisY->IntervalAutoMode = System::Windows::Forms::DataVisualization::Charting::IntervalAutoMode::VariableCount;
-			chartArea3->AxisY->LineWidth = 0;
-			chartArea3->AxisY->MajorGrid->Enabled = false;
-			chartArea3->AxisY->MajorTickMark->LineWidth = 0;
-			chartArea3->BackColor = System::Drawing::Color::White;
-			chartArea3->Name = L"ChartArea1";
-			this->Ratio->ChartAreas->Add(chartArea3);
-			legend3->Alignment = System::Drawing::StringAlignment::Center;
-			legend3->BackColor = System::Drawing::Color::White;
-			legend3->Docking = System::Windows::Forms::DataVisualization::Charting::Docking::Bottom;
-			legend3->Enabled = false;
-			legend3->Font = (gcnew System::Drawing::Font(L"Century Gothic", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			chartArea18->AxisX->LineWidth = 0;
+			chartArea18->AxisX->MajorGrid->Enabled = false;
+			chartArea18->AxisX->MajorTickMark->Enabled = false;
+			chartArea18->AxisY->Interval = 1;
+			chartArea18->AxisY->IntervalAutoMode = System::Windows::Forms::DataVisualization::Charting::IntervalAutoMode::VariableCount;
+			chartArea18->AxisY->LineWidth = 0;
+			chartArea18->AxisY->MajorGrid->Enabled = false;
+			chartArea18->AxisY->MajorTickMark->LineWidth = 0;
+			chartArea18->BackColor = System::Drawing::Color::White;
+			chartArea18->Name = L"ChartArea1";
+			this->Ratio->ChartAreas->Add(chartArea18);
+			legend18->Alignment = System::Drawing::StringAlignment::Center;
+			legend18->BackColor = System::Drawing::Color::White;
+			legend18->Docking = System::Windows::Forms::DataVisualization::Charting::Docking::Bottom;
+			legend18->Enabled = false;
+			legend18->Font = (gcnew System::Drawing::Font(L"Century Gothic", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			legend3->InterlacedRowsColor = System::Drawing::SystemColors::Control;
-			legend3->IsTextAutoFit = false;
-			legend3->Name = L"Legend1";
-			legend3->TitleBackColor = System::Drawing::SystemColors::Control;
-			legend3->TitleFont = (gcnew System::Drawing::Font(L"Century Gothic", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			legend18->InterlacedRowsColor = System::Drawing::SystemColors::Control;
+			legend18->IsTextAutoFit = false;
+			legend18->Name = L"Legend1";
+			legend18->TitleBackColor = System::Drawing::SystemColors::Control;
+			legend18->TitleFont = (gcnew System::Drawing::Font(L"Century Gothic", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->Ratio->Legends->Add(legend3);
+			this->Ratio->Legends->Add(legend18);
 			this->Ratio->Location = System::Drawing::Point(1012, 108);
 			this->Ratio->Name = L"Ratio";
 			this->Ratio->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::None;
 			this->Ratio->PaletteCustomColors = gcnew cli::array< System::Drawing::Color >(2) { System::Drawing::Color::LimeGreen, System::Drawing::Color::Pink };
-			series3->BackImageTransparentColor = System::Drawing::SystemColors::Control;
-			series3->BackSecondaryColor = System::Drawing::SystemColors::Control;
-			series3->BorderColor = System::Drawing::SystemColors::Control;
-			series3->ChartArea = L"ChartArea1";
-			series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Bar;
-			series3->Color = System::Drawing::SystemColors::ButtonShadow;
-			series3->CustomProperties = L"PieLineColor=Control, CollectedColor=Control";
-			series3->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			series18->BackImageTransparentColor = System::Drawing::SystemColors::Control;
+			series18->BackSecondaryColor = System::Drawing::SystemColors::Control;
+			series18->BorderColor = System::Drawing::SystemColors::Control;
+			series18->ChartArea = L"ChartArea1";
+			series18->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Bar;
+			series18->Color = System::Drawing::SystemColors::ButtonShadow;
+			series18->CustomProperties = L"PieLineColor=Control, CollectedColor=Control";
+			series18->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			series3->IsValueShownAsLabel = true;
-			series3->IsXValueIndexed = true;
-			series3->LabelForeColor = System::Drawing::Color::White;
-			series3->Legend = L"Legend1";
-			series3->MarkerBorderColor = System::Drawing::Color::White;
-			series3->Name = L"Series1";
-			series3->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::BrightPastel;
-			series3->ShadowColor = System::Drawing::SystemColors::Control;
-			series3->XValueType = System::Windows::Forms::DataVisualization::Charting::ChartValueType::String;
-			series3->YValuesPerPoint = 3;
-			this->Ratio->Series->Add(series3);
+			series18->IsValueShownAsLabel = true;
+			series18->IsXValueIndexed = true;
+			series18->LabelForeColor = System::Drawing::Color::White;
+			series18->Legend = L"Legend1";
+			series18->MarkerBorderColor = System::Drawing::Color::White;
+			series18->Name = L"Series1";
+			series18->Palette = System::Windows::Forms::DataVisualization::Charting::ChartColorPalette::BrightPastel;
+			series18->ShadowColor = System::Drawing::SystemColors::Control;
+			series18->XValueType = System::Windows::Forms::DataVisualization::Charting::ChartValueType::String;
+			series18->YValuesPerPoint = 3;
+			this->Ratio->Series->Add(series18);
 			this->Ratio->Size = System::Drawing::Size(429, 113);
 			this->Ratio->TabIndex = 4;
 			this->Ratio->Text = L"Donut";
@@ -851,20 +897,118 @@ namespace TOPD {
 			this->label7->Font = (gcnew System::Drawing::Font(L"Century Gothic", 13.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label7->ForeColor = System::Drawing::Color::Black;
-			this->label7->Location = System::Drawing::Point(12, 83);
+			this->label7->Location = System::Drawing::Point(0, 86);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(215, 27);
+			this->label7->Size = System::Drawing::Size(245, 27);
 			this->label7->TabIndex = 0;
-			this->label7->Text = L"Робота з даними:";
+			this->label7->Text = L"Робота з таблицею:";
+			// 
+			// label8
+			// 
+			this->label8->AutoSize = true;
+			this->label8->BackColor = System::Drawing::Color::Transparent;
+			this->label8->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->label8->Font = (gcnew System::Drawing::Font(L"Century Gothic", 13.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label8->ForeColor = System::Drawing::Color::Black;
+			this->label8->Location = System::Drawing::Point(54, 7);
+			this->label8->Name = L"label8";
+			this->label8->Size = System::Drawing::Size(377, 26);
+			this->label8->TabIndex = 11;
+			this->label8->Text = L"Оберіть таблицю для перегляду:";
+			// 
+			// button9
+			// 
+			this->button9->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->button9->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->button9->FlatAppearance->BorderSize = 0;
+			this->button9->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button9->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button9->ForeColor = System::Drawing::Color::White;
+			this->button9->Location = System::Drawing::Point(482, -2);
+			this->button9->Name = L"button9";
+			this->button9->Size = System::Drawing::Size(144, 45);
+			this->button9->TabIndex = 12;
+			this->button9->Text = L"Пацієнти";
+			this->button9->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
+			this->button9->UseVisualStyleBackColor = false;
+			this->button9->Click += gcnew System::EventHandler(this, &MyForm::button9_Click);
+			this->button9->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::button9_Paint);
+			// 
+			// button10
+			// 
+			this->button10->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->button10->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->button10->FlatAppearance->BorderSize = 0;
+			this->button10->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button10->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button10->ForeColor = System::Drawing::Color::White;
+			this->button10->Location = System::Drawing::Point(722, -2);
+			this->button10->Name = L"button10";
+			this->button10->Size = System::Drawing::Size(144, 45);
+			this->button10->TabIndex = 12;
+			this->button10->Text = L"Доктори";
+			this->button10->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
+			this->button10->UseVisualStyleBackColor = false;
+			this->button10->Click += gcnew System::EventHandler(this, &MyForm::button10_Click);
+			this->button10->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::button10_Paint);
+			// 
+			// button11
+			// 
+			this->button11->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+				static_cast<System::Int32>(static_cast<System::Byte>(255)));
+			this->button11->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->button11->FlatAppearance->BorderSize = 0;
+			this->button11->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->button11->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->button11->ForeColor = System::Drawing::Color::White;
+			this->button11->Location = System::Drawing::Point(962, -2);
+			this->button11->Name = L"button11";
+			this->button11->Size = System::Drawing::Size(144, 45);
+			this->button11->TabIndex = 12;
+			this->button11->Text = L"Палати";
+			this->button11->TextImageRelation = System::Windows::Forms::TextImageRelation::TextBeforeImage;
+			this->button11->UseVisualStyleBackColor = false;
+			this->button11->Click += gcnew System::EventHandler(this, &MyForm::button11_Click);
+			this->button11->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::button11_Paint);
+			// 
+			// panel1
+			// 
+			this->panel1->BackColor = System::Drawing::Color::White;
+			this->panel1->Controls->Add(this->button10);
+			this->panel1->Controls->Add(this->button11);
+			this->panel1->Controls->Add(this->label8);
+			this->panel1->Controls->Add(this->button9);
+			this->panel1->Location = System::Drawing::Point(280, 554);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(1164, 42);
+			this->panel1->TabIndex = 13;
+			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
+			// 
+			// panel2
+			// 
+			this->panel2->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
+				static_cast<System::Int32>(static_cast<System::Byte>(251)));
+			this->panel2->Location = System::Drawing::Point(0, 361);
+			this->panel2->Name = L"panel2";
+			this->panel2->Size = System::Drawing::Size(241, 4);
+			this->panel2->TabIndex = 14;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSize = true;
+			this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
 				static_cast<System::Int32>(static_cast<System::Byte>(251)));
-			this->ClientSize = System::Drawing::Size(1779, 803);
+			this->ClientSize = System::Drawing::Size(1779, 879);
+			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->label7);
 			this->Controls->Add(this->Ratio);
 			this->Controls->Add(this->label10);
@@ -879,6 +1023,9 @@ namespace TOPD {
 			this->Controls->Add(this->chart2);
 			this->Controls->Add(this->Donut);
 			this->Controls->Add(this->dataGridView1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MaximumSize = System::Drawing::Size(1797, 926);
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Система обліку пораненних";
@@ -904,6 +1051,8 @@ namespace TOPD {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Ratio))->EndInit();
 			this->panel7->ResumeLayout(false);
 			this->panel7->PerformLayout();
+			this->panel1->ResumeLayout(false);
+			this->panel1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -946,7 +1095,7 @@ namespace TOPD {
 	}
 	private: System::Void UpdateRatioChart() {
 		Ratio->Series["Series1"]->Points->Clear();
-		if(dbGenderRow->ContainsKey(L"Ч")) {
+		if (dbGenderRow->ContainsKey(L"Ч")) {
 			Ratio->Series["Series1"]->Points->AddXY(L"Чоловіки", dbGenderRow[L"Ч"]);
 		}
 		if (dbGenderRow->ContainsKey(L"Ж")) {
@@ -968,9 +1117,11 @@ namespace TOPD {
 		if (dbFieldRow->ContainsKey(L"Цивільний")) {
 			label1->Text = dbFieldRow[L"Цивільний"].ToString();
 		}
+		else label1->Text = "0";
 		if (dbFieldRow->ContainsKey(L"Військовий")) {
 			label2->Text = dbFieldRow[L"Військовий"].ToString();
 		}
+		else label2->Text = "0";
 	}
 	private: System::Void ShowOnlyCivil() {
 		dataGridView1->DataSource = nullptr;
@@ -980,12 +1131,12 @@ namespace TOPD {
 		dataGridView1->DataSource = nullptr;
 		dataGridView1->DataSource = tMilitaryData;
 	}
-	//Brings all the data into the dataGrid
+		   //Brings all the data into the dataGrid
 	private: System::Void ShowAll() {
 		dataGridView1->DataSource = nullptr;
 		dataGridView1->DataSource = tAllData;
 	}
-	//Updates the tCivilData and tMilitaryData dicts
+		   //Updates the tCivilData and tMilitaryData dicts
 	private: System::Void UpdateDataTables() {
 		//TO DO: not optimized
 		auto cVal = tAllData->Columns->GetEnumerator();
@@ -1018,11 +1169,10 @@ namespace TOPD {
 			rwVal->MoveNext();
 		}
 	}
-	private: System::Void DefaultChartButtons() {
-		button7->BackColor = Color::FromArgb(0, 128, 255);
-		button6->BackColor = Color::FromArgb(0, 128, 255);
-		button5->BackColor = Color::FromArgb(0, 128, 255);
-		button4->BackColor = Color::FromArgb(0, 128, 255);
+	private: System::Void DefaultButtons(array<Button^>^ arr ) {
+		for each (auto but in arr) {
+			but->BackColor = Color::FromArgb(0, 128, 255);
+		}
 	}
 	private: System::Void DefaultFilterButtons() {
 		button1->BackColor = Color::FromArgb(0, 128, 255);
@@ -1041,7 +1191,7 @@ namespace TOPD {
 		}
 
 
-		//SortDict(dbDateTime);
+		SortDict(dbDateTime);
 
 
 
@@ -1069,13 +1219,12 @@ namespace TOPD {
 
 		}
 	}
-	private: MySqlDataAdapter^ SelectTheQuery(MySqlConnection^ const conn) {
+	private: MySqlDataAdapter^ SelectTheQuery() {
 		if (this->permission == L"Адміністратор") {
 			return gcnew MySqlDataAdapter(L"SELECT patients.id_no, patients.full_name AS \'Повне ім\\'я\', patients.working_field as \'Область\' ,patients.age as \'Вік\', patients.gender as \'Стать\', patients.cause as \'Причина\', patients.disease as \'Діагноз\', patients.threatment as \'Лікування\' ,patients.admission_date as \'Дата прийняття\', patients.bill_no as \'№ рахунку\', patients.doctor_id as \'№ доктора\', patients.room_no as \'Палата\' FROM patients;", conn);
-			//return gcnew MySqlDataAdapter(L"SELECT patients.id_no, patients.full_name AS \'Повне ім\\'я\', patients.working_field as \'Область\' ,patients.age as \'Вік\', patients.gender as \'Стать\', patients.cause as \'Причина\', patients.disease as \'Діагноз\', patients.threatment as \'Лікування\' ,patients.admission_date as \'Дата прийняття\', bills.amount as \'Сума\', doctors.full_name as \'Ім\\'я доктора\', patients.room_no as \'Палата\', rooms.room_type as \'Тип палати\' FROM patients LEFT JOIN bills ON patients.bill_no = bills.bill_no LEFT JOIN doctors ON patients.doctor_id = doctors.doctor_id LEFT JOIN rooms ON patients.room_no = rooms.room_no; ", conn);
 		}
 		else if (this->permission == L"Медичний персонал") {
-			return gcnew MySqlDataAdapter(L"SELECT patients.full_name AS \'Повне ім\\'я\', patients.working_field as \'Область\', patients.age AS \'Вік\', patients.gender AS \'Стать\', patients.cause as \'Обставини\', patients.threatment as \'Лікування\', patients.admission_date as \'Дата прийому\', bills.amount as \'Сума\', doctors.full_name as \'Ім\\'я доктора\', patients.room_no as \'Палата\', rooms.room_type as \'Тип палати\' FROM patients LEFT JOIN bills ON patients.bill_no = bills.bill_no LEFT JOIN doctors ON patients.doctor_id = doctors.doctor_id LEFT JOIN rooms ON patients.room_no = rooms.room_no; ", conn);
+			return gcnew MySqlDataAdapter(L"SELECT patients.full_name AS \'Повне ім\\'я\', patients.working_field as \'Область\', patients.age AS \'Вік\', patients.gender AS \'Стать\', patients.cause as \'Обставини\', patients.threatment as \'Лікування\', patients.admission_date as \'Дата прийому\', patients.bill_no as \'№ рахунку\', patients.doctor_id as \'№ доктора\', patients.room_no as \'Палата\' FROM patients;", conn);
 		}
 		else if (this->permission == L"Волонтер") {
 			return gcnew MySqlDataAdapter(L"SELECT patients.full_name AS \'Повне ім\\'я\', patients.age AS \'Вік\', patients.gender AS \'Стать\', patients.threatment AS \'Лікування\' FROM patients; ", conn);
@@ -1102,27 +1251,54 @@ namespace TOPD {
 
 		button7->BackColor = Color::FromArgb(128, 128, 255);
 		button8->BackColor = Color::FromArgb(128, 128, 255);
+		button9->BackColor = Color::FromArgb(128, 128, 255);
 
 		tAllData = gcnew DataTable();
+		tDoctorData = gcnew DataTable();
+		tRoomsData = gcnew DataTable();
 
+		arrButStat = gcnew array<Button^>(4);
+		arrButLeftSide = gcnew array<Button^>(3);
+		arrButLoverSide = gcnew array<Button^>(3);
+
+		arrButStat[0] = button7;
+		arrButStat[1] = button5;
+		arrButStat[2] = button6;
+		arrButStat[3] = button4;
+
+		arrButLeftSide[0] = button1;
+		arrButLeftSide[1] = button2;
+		arrButLeftSide[2] = button8;
+
+		arrButLoverSide[0] = button9;
+		arrButLoverSide[1] = button10;
+		arrButLoverSide[2] = button11;
 		////bringing information from the db to the form
 		conn = gcnew MySqlConnection(this->connStr);
 		conn->Open();
 
-		da = SelectTheQuery(conn);
+		patientsDA = SelectTheQuery(); 
+		if (this->permission == L"Адміністратор") {
+			doctorsDA = gcnew MySqlDataAdapter(L"SELECT doctor_id, full_name as \'Ім\\'я\', age as \'Вік\', field_of_occ as \'Спеціальність\' FROM doctors", conn);
+			doctorsDA->Fill(tDoctorData);
+		}
+		if (this->permission == L"Адміністратор") {
+			roomsDA = gcnew MySqlDataAdapter(L"SELECT room_no as \'Номер палати\', room_type as \'Тип палати\' FROM rooms", conn);
+			roomsDA->Fill(tRoomsData);
+		}
 
 		//the query string
-		da->Fill(tAllData);
-		da->UpdateBatchSize = 1;
-		build = gcnew MySqlCommandBuilder(da);
-		da->UpdateCommand = build->GetUpdateCommand();
-		da->DeleteCommand = build->GetDeleteCommand();
-		da->InsertCommand = build->GetInsertCommand();
-		
+		patientsDA->Fill(tAllData);
+		patientsDA->UpdateBatchSize = 1;
+		build = gcnew MySqlCommandBuilder(patientsDA);
+		patientsDA->UpdateCommand = build->GetUpdateCommand();
+		patientsDA->DeleteCommand = build->GetDeleteCommand();
+		patientsDA->InsertCommand = build->GetInsertCommand();
+
 		UpdateDataTables();
 
 		ShowAll();
-		
+
 		//The functions below must always come after the StructurizeInfo func
 		StructurizeInfo();
 
@@ -1154,6 +1330,9 @@ namespace TOPD {
 	private: System::Void panel4_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		MakeFigureRounded(panel4, e);
 	}
+	private: System::Void panel1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		MakeFigureRounded(panel1, e);
+	}
 	private: System::Void chart2_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		MakeFigureRounded(chart2, e);
 	}
@@ -1167,22 +1346,34 @@ namespace TOPD {
 		MakeFigureRounded(panel7, e);
 	}
 	private: System::Void button4_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		MakeFigureRounded(button4, e, 45.f);
+		MakeFigureRounded(button4, e, 50.f);
 	}
 	private: System::Void button6_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		MakeFigureRounded(button6, e, 45.f);
+		MakeFigureRounded(button6, e, 50.f);
 	}
 	private: System::Void button5_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		MakeFigureRounded(button5, e, 45.f);
+		MakeFigureRounded(button5, e, 50.f);
 	}
 	private: System::Void button7_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		MakeFigureRounded(button7, e, 45.f);
+		MakeFigureRounded(button7, e, 50.f);
 	}
 	private: System::Void button8_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		MakeFigureRounded(button8, e, 55.f);
 	}
 	private: System::Void Update_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		MakeFigureRounded(Update, e, 55.f);
+	}
+	private: System::Void button3_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		MakeFigureRounded(button3, e, 55.f);
+	}
+	private: System::Void button11_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		MakeFigureRounded(button11, e, 45.f);
+	}
+	private: System::Void button10_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		MakeFigureRounded(button10, e, 45.f);
+	}
+	private: System::Void button9_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
+		MakeFigureRounded(button9, e, 45.f);
 	}
 	private: System::Void button1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		float borderSize = 0.f;
@@ -1224,70 +1415,106 @@ namespace TOPD {
 
 		}
 	}
+	private: System::Void button9_Click(System::Object^ sender, System::EventArgs^ e) {
+		DefaultButtons(arrButLoverSide);
+		button9->BackColor = Color::FromArgb(128, 128, 255);
+
+		dataGridView1->DataSource = tAllData;
+	}
+	private: System::Void button10_Click(System::Object^ sender, System::EventArgs^ e) {
+		DefaultButtons(arrButLoverSide);
+		button10->BackColor = Color::FromArgb(128, 128, 255);
+
+		dataGridView1->DataSource = tDoctorData;
+	}
+	private: System::Void button11_Click(System::Object^ sender, System::EventArgs^ e) {
+		DefaultButtons(arrButLoverSide);
+		button11->BackColor = Color::FromArgb(128, 128, 255);
+
+		dataGridView1->DataSource = tRoomsData;
+	}
 	private: System::Void button7_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultChartButtons();
+		DefaultButtons(arrButStat);
 		button7->BackColor = Color::FromArgb(128, 128, 255);
 		StatSelectionLast(0);
 	}
 	private: System::Void button5_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultChartButtons();
+		DefaultButtons(arrButStat);
 		button5->BackColor = Color::FromArgb(128, 128, 255);
 		StatSelectionLast(180);
 	}
 	private: System::Void button6_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultChartButtons();
+		DefaultButtons(arrButStat);
 		button6->BackColor = Color::FromArgb(128, 128, 255);
 		StatSelectionLast(30);
 	}
 	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultChartButtons();
+		DefaultButtons(arrButStat);
 		button4->BackColor = Color::FromArgb(128, 128, 255);
 		StatSelectionLast(7);
 
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		
+		dataGridView1->ReadOnly = true;
 
-		DefaultFilterButtons();
+		DefaultButtons(arrButLeftSide);
 		button1->BackColor = Color::FromArgb(128, 128, 255);
 
 		ShowOnlyCivil();
 	}
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultFilterButtons();
+		dataGridView1->ReadOnly = true;
+
+		DefaultButtons(arrButLeftSide);
 		button2->BackColor = Color::FromArgb(128, 128, 255);
 
 		ShowOnlyMilitary();
 	}
 	private: System::Void button8_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultFilterButtons();
+		dataGridView1->ReadOnly = false;
+
+		DefaultButtons(arrButLeftSide);
 		button8->BackColor = Color::FromArgb(128, 128, 255);
 
 		ShowAll();
+	}
+	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+		UpdateDataTables();
+
+		ShowAll();
+
+		dbDateTime = gcnew Dictionary<DateTime, size_t>();
+		dbFieldRow = gcnew Dictionary<String^, size_t>();
+		dbDiseaseRow = gcnew Dictionary<String^, size_t>();
+		dbGenderRow = gcnew Dictionary<String^, size_t>();
+		//The functions below must always come after the StructurizeInfo func
+		StructurizeInfo();
+
+		StatSelectionLast(0);//assuming that the button7 is initialy chosen
+
+		UpdateRatioChart();
+
+		UpdateDonutChart();
 	}
 	private: System::Void dataGridView1_Scroll(System::Object^ sender, System::Windows::Forms::ScrollEventArgs^ e) {
 		dataGridView1->Refresh();
 	}
 	private: System::Void Update_Click(System::Object^ sender, System::EventArgs^ e) {
-		da->Update(tAllData);
 		tAllData->Clear();
-		da->Fill(tAllData);
+		patientsDA->Fill(tAllData);
 	}
-	private: System::Void dataGridView1_CellEndEdit(Object^ sender, DataGridViewCellEventArgs^ e) {		
-		//dataGridView1->EndEdit();
-		//dataGridView1->Invalidate();
-		//auto succ = da->Update(tAllData);//can't update primary keys
-	}
-
+	private: int rowBeginMod{ -1 };
 	private: System::Void dataGridView1_CellBeginEdit(System::Object^ sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^ e) {
 		// Check if the cell belongs to the specific row you want to restrict
-		if (e->ColumnIndex == 0){
+		rowBeginMod = e->RowIndex;
+
+		if (e->ColumnIndex == 0) {
 			e->Cancel = true;
 		}
 	}
 	private: System::Void dataGridView1_RowsRemoved(System::Object^ sender, System::Windows::Forms::DataGridViewRowsRemovedEventArgs^ e) {
 		if (dataGridView1->Focused) {
-			da->Update(tAllData);
+			patientsDA->Update(tAllData);
 		}
 	}
 	private: int lastRowSelected{ -1 };
@@ -1295,15 +1522,53 @@ namespace TOPD {
 		lastRowSelected = e->RowIndex;
 		dataGridView1->EndEdit();
 		dataGridView1->CommitEdit(DataGridViewDataErrorContexts());
-		auto succ = da->Update(tAllData);//can't update primary keys
-	}
-	private: System::Void dataGridView1_RowEnter(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-	
-	}
-	private: System::Void dataGridView1_SelectionChanged(System::Object^ sender, System::EventArgs^ e) {
-		if (lastRowSelected == dataGridView1->Rows->Count - 2) {
-			dataGridView1->CurrentCell = dataGridView1->Rows[lastRowSelected]->Cells[1];
+
+		try {
+			auto succ = patientsDA->Update(tAllData);//can't update primary keys
+		}
+		catch (MySqlException^ ex) {
+			auto text = ex->Message;
+			if (text == L"Field \'bill_no\' doesn\'t have a default value") {
+				MessageBox::Show(L"Заповніть рядок повністю", L"Створення рядка", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+				dataGridView1->Rows[e->RowIndex]->Cells[e->ColumnIndex]->Value = nullptr;
+				//tAllData->Rows[e->RowIndex-1]->Delete();
+			}
 		}
 	}
+	private: int lastSelection{ -1 };//local check for selection variable 
+	private: System::Void dataGridView1_SelectionChanged(System::Object^ sender, System::EventArgs^ e) {
+		auto cnt = dataGridView1->Rows->Count;
+		auto diff = lastRowSelected - lastSelection;
+		if (cnt > lastRowSelected &&
+			lastRowSelected >= 0 &&
+			lastRowSelected != cnt - 1 &&
+			dataGridView1->Rows[lastRowSelected + 1]->IsNewRow) {//if the next row is the lower new row
+
+			if (cnt <= 2)dataGridView1->CurrentCell = dataGridView1->Rows[cnt - 2]->Cells[1];
+			else		dataGridView1->CurrentCell = dataGridView1->Rows[cnt - 3]->Cells[1];
+
+
+			return;
+		}
+
+	}
+	private: System::Void dataGridView1_DataError(System::Object^ sender, System::Windows::Forms::DataGridViewDataErrorEventArgs^ e) {
+		if (e->Exception->Message == L"Input string was not in a correct format.") {
+			MessageBox::Show(L"Невірний тип даних", L"Створення рядка", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			if (dataGridView1->Columns[e->ColumnIndex]->HeaderText == L"Вік") {
+				MessageBox::Show(L"Тип даних має бути ціле число", L"Створення рядка", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			}
+			dataGridView1->Rows[e->RowIndex]->Cells[e->ColumnIndex]->Value = nullptr;
+			//tAllData->Rows[e->RowIndex]->Delete();
+		}
+		else if (e->Exception->Message == L"The string was not recognized as a valid DateTime. There is an unknown word starting at index 0.") {
+			if (dataGridView1->Columns[e->ColumnIndex]->HeaderText == L"Дата прийняття") {
+				MessageBox::Show(L"Тип даних має бути дата (місяць-день-рік або місяць/день/рік)", L"Створення рядка", MessageBoxButtons::OK, MessageBoxIcon::Information);
+			}
+			dataGridView1->Rows[e->RowIndex]->Cells[e->ColumnIndex]->Value = nullptr;
+			//tAllData->Rows[e->RowIndex]->Delete();
+		}
+	}
+
 };
 }

@@ -74,6 +74,7 @@ namespace TOPD {
 		   /// </summary>
 		   void InitializeComponent(void)
 		   {
+			   System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(LoginForm::typeid));
 			   this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			   this->label2 = (gcnew System::Windows::Forms::Label());
 			   this->textBox2 = (gcnew System::Windows::Forms::TextBox());
@@ -97,7 +98,6 @@ namespace TOPD {
 			   this->textBox1->Name = L"textBox1";
 			   this->textBox1->Size = System::Drawing::Size(200, 27);
 			   this->textBox1->TabIndex = 1;
-			   this->textBox1->Text = L"root";
 			   // 
 			   // label2
 			   // 
@@ -242,8 +242,11 @@ namespace TOPD {
 			   this->Controls->Add(this->label3);
 			   this->Controls->Add(this->label5);
 			   this->Controls->Add(this->label2);
+			   this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+			   this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			   this->Name = L"LoginForm";
-			   this->Text = L"LoginForm";
+			   this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+			   this->Text = L"Authentication";
 			   this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &LoginForm::LoginForm_Paint);
 			   this->ResumeLayout(false);
 			   this->PerformLayout();
@@ -275,9 +278,14 @@ namespace TOPD {
 			conn->Close();
 			return false;
 		}
+		return false;
 	}
 	private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (textBox2->Text->Length < passwd->Length) {//handle deleting
+			passwd = passwd->Remove(textBox2->Text->Length);
+		}
 		if (textBox2->Text->Length != 0) {
+			
 			int pos = textBox2->Text->Length - 1;
 			String^ ins = Convert::ToString(textBox2->Text[pos]);
 
@@ -293,7 +301,7 @@ namespace TOPD {
 
 		serverIP = textBox3->Text;
 
-		passwd = "1111";//DELETE
+		//passwd = "1111";//DELETE
 
 		try {
 			MySqlConnection^ conn = gcnew MySqlConnection("server="+serverIP+";port=3306;database=mydb;uid=testconnection;password=1111");
@@ -324,11 +332,11 @@ namespace TOPD {
 		}
 	}
 	private: System::Void button1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		MakeFigureRounded(button1, e, 38);
+		MakeFigureRounded(button1, e, 48);
 		
 	}
 	private: System::Void LoginForm_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
-		e->Graphics->SmoothingMode = SmoothingMode::HighQuality;
+		e->Graphics->SmoothingMode = SmoothingMode::AntiAlias;
 		e->Graphics->TextRenderingHint = System::Drawing::Text::TextRenderingHint::ClearTypeGridFit;
 	}
 };
