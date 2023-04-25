@@ -98,6 +98,7 @@ namespace TOPD {
 			   this->textBox1->Name = L"textBox1";
 			   this->textBox1->Size = System::Drawing::Size(200, 27);
 			   this->textBox1->TabIndex = 1;
+			   this->textBox1->Text = L"root";
 			   // 
 			   // label2
 			   // 
@@ -188,7 +189,7 @@ namespace TOPD {
 			   // 
 			   this->panel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				   static_cast<System::Int32>(static_cast<System::Byte>(255)));
-			   this->panel1->Location = System::Drawing::Point(222, 302);
+			   this->panel1->Location = System::Drawing::Point(222, 304);
 			   this->panel1->Name = L"panel1";
 			   this->panel1->Size = System::Drawing::Size(220, 8);
 			   this->panel1->TabIndex = 4;
@@ -281,8 +282,7 @@ namespace TOPD {
 		return false;
 	}
 	private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-		if (textBox2->Text->Length < passwd->Length) {//handle deleting
-			passwd = passwd->Remove(textBox2->Text->Length);
+		if (textBox2->Text->Length < passwd->Length) {//handle deletin			passwd = passwd->Remove(textBox2->Text->Length);
 		}
 		if (textBox2->Text->Length != 0) {
 			
@@ -301,7 +301,7 @@ namespace TOPD {
 
 		serverIP = textBox3->Text;
 
-		//passwd = "1111";//DELETE
+		passwd = "1111";//DELETE
 
 		try {
 			MySqlConnection^ conn = gcnew MySqlConnection("server="+serverIP+";port=3306;database=mydb;uid=testconnection;password=1111");

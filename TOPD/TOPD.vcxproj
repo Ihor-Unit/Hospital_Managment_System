@@ -182,6 +182,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dataGridView_functions.cpp" />
+    <ClCompile Include="InitializeComponents_func.cpp" />
     <ClCompile Include="LoginForm.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
