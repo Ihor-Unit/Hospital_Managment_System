@@ -1,4 +1,4 @@
-# TOPD
+# Screenshots of the program
 ![image](https://user-images.githubusercontent.com/83922932/236143144-cd8d61f3-e846-4d3d-8a96-a12c365cf3de.png)
 ![image](https://user-images.githubusercontent.com/83922932/236143186-0d0e7598-5286-4432-8329-26da75acb60a.png)
 ![image](https://user-images.githubusercontent.com/83922932/236144011-7ee679d3-19ad-4a68-af4c-4e8c018bf8d2.png)
