@@ -114,10 +114,11 @@ void TOPD::MyForm::InitializeComponent(void){
     this->dataGridView1->RowHeadersWidth = 51;
     this->dataGridView1->RowTemplate->Height = 24;
     this->dataGridView1->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
-    this->dataGridView1->Size = System::Drawing::Size(1465, 473);
+    this->dataGridView1->Size = System::Drawing::Size(1487, 473);
     this->dataGridView1->TabIndex = 3;
     this->dataGridView1->CellBeginEdit += gcnew System::Windows::Forms::DataGridViewCellCancelEventHandler(this, &MyForm::dataGridView1_CellBeginEdit);
     this->dataGridView1->DataError += gcnew System::Windows::Forms::DataGridViewDataErrorEventHandler(this, &MyForm::dataGridView1_DataError);
+    this->dataGridView1->NewRowNeeded += gcnew System::Windows::Forms::DataGridViewRowEventHandler(this, &MyForm::dataGridView1_NewRowNeeded);
     this->dataGridView1->RowEnter += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowEnter);
     this->dataGridView1->RowLeave += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dataGridView1_RowLeave);
     this->dataGridView1->RowsRemoved += gcnew System::Windows::Forms::DataGridViewRowsRemovedEventHandler(this, &MyForm::dataGridView1_RowsRemoved);
@@ -663,7 +664,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->panel1->Controls->Add(this->patients);
     this->panel1->Location = System::Drawing::Point(255, 6);
     this->panel1->Name = L"panel1";
-    this->panel1->Size = System::Drawing::Size(1218, 58);
+    this->panel1->Size = System::Drawing::Size(1240, 58);
     this->panel1->TabIndex = 13;
     this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
     // 
@@ -676,7 +677,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->tabControl1->Location = System::Drawing::Point(0, 0);
     this->tabControl1->Name = L"tabControl1";
     this->tabControl1->SelectedIndex = 0;
-    this->tabControl1->Size = System::Drawing::Size(1495, 645);
+    this->tabControl1->Size = System::Drawing::Size(1509, 645);
     this->tabControl1->TabIndex = 9;
     // 
     // Statistics
@@ -698,7 +699,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->Statistics->Location = System::Drawing::Point(4, 30);
     this->Statistics->Name = L"Statistics";
     this->Statistics->Padding = System::Windows::Forms::Padding(3);
-    this->Statistics->Size = System::Drawing::Size(1487, 611);
+    this->Statistics->Size = System::Drawing::Size(1501, 611);
     this->Statistics->TabIndex = 0;
     this->Statistics->Text = L"Статистика";
     // 
@@ -723,7 +724,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->TheTable->Location = System::Drawing::Point(4, 30);
     this->TheTable->Name = L"TheTable";
     this->TheTable->Padding = System::Windows::Forms::Padding(3);
-    this->TheTable->Size = System::Drawing::Size(1487, 611);
+    this->TheTable->Size = System::Drawing::Size(1501, 611);
     this->TheTable->TabIndex = 1;
     this->TheTable->Text = L"Таблиця";
     // 
@@ -731,7 +732,7 @@ void TOPD::MyForm::InitializeComponent(void){
     // 
     this->panel6->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
-    this->panel6->Location = System::Drawing::Point(1056, 101);
+    this->panel6->Location = System::Drawing::Point(1098, 98);
     this->panel6->Name = L"panel6";
     this->panel6->Size = System::Drawing::Size(105, 8);
     this->panel6->TabIndex = 17;
@@ -740,7 +741,7 @@ void TOPD::MyForm::InitializeComponent(void){
     // 
     this->panel5->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
         static_cast<System::Int32>(static_cast<System::Byte>(255)));
-    this->panel5->Location = System::Drawing::Point(904, 101);
+    this->panel5->Location = System::Drawing::Point(946, 98);
     this->panel5->Name = L"panel5";
     this->panel5->Size = System::Drawing::Size(105, 8);
     this->panel5->TabIndex = 17;
@@ -751,7 +752,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->textBox2->BorderStyle = System::Windows::Forms::BorderStyle::None;
     this->textBox2->Font = (gcnew System::Drawing::Font(L"Century Gothic", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->textBox2->Location = System::Drawing::Point(1058, 73);
+    this->textBox2->Location = System::Drawing::Point(1100, 73);
     this->textBox2->Name = L"textBox2";
     this->textBox2->Size = System::Drawing::Size(100, 25);
     this->textBox2->TabIndex = 16;
@@ -762,7 +763,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->textBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
     this->textBox1->Font = (gcnew System::Drawing::Font(L"Century Gothic", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->textBox1->Location = System::Drawing::Point(906, 73);
+    this->textBox1->Location = System::Drawing::Point(948, 73);
     this->textBox1->Name = L"textBox1";
     this->textBox1->Size = System::Drawing::Size(100, 25);
     this->textBox1->TabIndex = 16;
@@ -776,10 +777,10 @@ void TOPD::MyForm::InitializeComponent(void){
     this->comboFiltering->FormattingEnabled = true;
     this->comboFiltering->Location = System::Drawing::Point(565, 75);
     this->comboFiltering->Name = L"comboFiltering";
-    this->comboFiltering->Size = System::Drawing::Size(143, 31);
+    this->comboFiltering->Size = System::Drawing::Size(185, 31);
     this->comboFiltering->TabIndex = 15;
     this->comboFiltering->SelectionChangeCommitted += gcnew System::EventHandler(this, &MyForm::comboFiltering_SelectionChangeCommitted);
-    this->comboFiltering->SelectedValueChanged += gcnew System::EventHandler(this, &MyForm::comboBox1_SelectedValueChanged);
+    this->comboFiltering->SelectedValueChanged += gcnew System::EventHandler(this, &MyForm::comboFiltering_SelectedValueChanged);
     // 
     // show
     // 
@@ -791,7 +792,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->show->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
     this->show->ForeColor = System::Drawing::Color::White;
-    this->show->Location = System::Drawing::Point(1201, 73);
+    this->show->Location = System::Drawing::Point(1241, 70);
     this->show->Name = L"show";
     this->show->Size = System::Drawing::Size(173, 45);
     this->show->TabIndex = 12;
@@ -809,7 +810,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->label7->Font = (gcnew System::Drawing::Font(L"Century Gothic", 13.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
     this->label7->ForeColor = System::Drawing::Color::Black;
-    this->label7->Location = System::Drawing::Point(1013, 78);
+    this->label7->Location = System::Drawing::Point(1055, 78);
     this->label7->Name = L"label7";
     this->label7->Size = System::Drawing::Size(39, 26);
     this->label7->TabIndex = 11;
@@ -837,7 +838,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->label5->Font = (gcnew System::Drawing::Font(L"Century Gothic", 13.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
     this->label5->ForeColor = System::Drawing::Color::Black;
-    this->label5->Location = System::Drawing::Point(714, 78);
+    this->label5->Location = System::Drawing::Point(756, 78);
     this->label5->Name = L"label5";
     this->label5->Size = System::Drawing::Size(187, 26);
     this->label5->TabIndex = 11;
@@ -851,7 +852,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
     this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
         static_cast<System::Int32>(static_cast<System::Byte>(251)));
-    this->ClientSize = System::Drawing::Size(1503, 655);
+    this->ClientSize = System::Drawing::Size(1509, 643);
     this->Controls->Add(this->tabControl1);
     this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
     this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));

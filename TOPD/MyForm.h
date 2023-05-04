@@ -165,7 +165,7 @@ namespace TOPD {
 		MySqlCommandBuilder^ build = nullptr;
 
 		array<Button^>^ arrButStat = nullptr;
-		array<Button^>^ arrButLoverSide = nullptr;
+		array<Button^>^ arrButLowerSide = nullptr;
 		
 
 		DataTable^ baseDataSorce = nullptr;
@@ -231,9 +231,6 @@ namespace TOPD {
 					dest->Rows[destIndx]->Delete();
 					dest->Rows->Add(cells->ItemArray);
 				}
-				/*for (size_t i{1}; i < cells->ItemArray->Length; i++) {
-					dest->Rows[destIndx]->ItemArray[i] = cells->ItemArray[i];
-				}*/
 
 				patientsDA->InsertCommand->Parameters[patientsDA->InsertCommand->Parameters->Count-1]->Value 
 					= cells->ItemArray[0];//set the pk of a row I need to insert
@@ -255,20 +252,44 @@ namespace TOPD {
 		}
 		comboFiltering->SelectedIndex = 0;
 	}
-	private: DataTable^ FilterTable(DataTable^ dt, int selcolum, String^ ftext) {
+	private: DataTable^ FilterTable(DataTable^ dt, int selcolum, String^ ftext, String^ secondText) {
 		DataTable^ filtered = dt->Copy();
 		filtered->Clear();
 
 
 		auto enRow = dt->Rows->GetEnumerator();
 		enRow->MoveNext();
-		for (size_t i{}; i < dt->Rows->Count; i++) {
-			if (dt->Rows[i]->ItemArray[selcolum]->ToString() == ftext) {
-				filtered->Rows->Add( (safe_cast<DataRow^>(enRow->Current))->ItemArray );
-				filtered->Rows[filtered->Rows->Count - 1]->AcceptChanges();//?
-			}
 
-			enRow->MoveNext();
+		if (secondText == nullptr) {
+			for (size_t i{}; i < dt->Rows->Count; i++) {
+				if (dt->Rows[i]->ItemArray[selcolum]->ToString() == ftext) {
+					filtered->Rows->Add((safe_cast<DataRow^>(enRow->Current))->ItemArray);
+					filtered->Rows[filtered->Rows->Count - 1]->AcceptChanges();//?
+				}
+
+				enRow->MoveNext();
+			}
+		}
+		else {
+			DateTime^ dateLower = gcnew DateTime();
+			dateLower = Convert::ToDateTime(ftext);
+
+			DateTime^ dateUpper = gcnew DateTime();
+			dateUpper = Convert::ToDateTime(secondText);
+
+			DateTime^ object = gcnew DateTime();
+
+
+			for (size_t i{}; i < dt->Rows->Count; i++) {
+				object = Convert::ToDateTime(dt->Rows[i]->ItemArray[selcolum]);
+
+				if (object->CompareTo(dateLower) >= 0 && object->CompareTo(dateUpper) <= 0) {
+					filtered->Rows->Add((safe_cast<DataRow^>(enRow->Current))->ItemArray);
+					filtered->Rows[filtered->Rows->Count - 1]->AcceptChanges();//?
+				}
+
+				enRow->MoveNext();
+			}
 		}
 		return filtered;
 	}
@@ -447,7 +468,7 @@ namespace TOPD {
 	
 	//private: DataTable^ currentTable = nullptr;
 	private: System::Void button9_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultButtons(arrButLoverSide);
+		DefaultButtons(arrButLowerSide);
 		patients->BackColor = Color::FromArgb(128, 128, 255);
 
 		dataGridView1->DataSource = tAllData;
@@ -455,7 +476,7 @@ namespace TOPD {
 		FillComboFiltering(tAllData);
 	}
 	private: System::Void button10_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultButtons(arrButLoverSide);
+		DefaultButtons(arrButLowerSide);
 		doctors->BackColor = Color::FromArgb(128, 128, 255);
 
 		dataGridView1->DataSource = tDoctorData;
@@ -463,7 +484,7 @@ namespace TOPD {
 		FillComboFiltering(tDoctorData);
 	}
 	private: System::Void button11_Click(System::Object^ sender, System::EventArgs^ e) {
-		DefaultButtons(arrButLoverSide);
+		DefaultButtons(arrButLowerSide);
 		rooms->BackColor = Color::FromArgb(128, 128, 255);
 
 		dataGridView1->DataSource = tRoomsData;
@@ -492,17 +513,30 @@ namespace TOPD {
 
 	}
 	private: System::Void show_Click(System::Object^ sender, System::EventArgs^ e) {
-		if ((safe_cast<DataTable^>(dataGridView1->DataSource)) != tAllData) {
-			dataGridView1->ReadOnly = true;
+		auto str = Convert::ToString(comboFiltering->Items[comboFiltering->SelectedIndex]);
+		if (str != L"Дата прийняття") {
+			if ((safe_cast<DataTable^>(dataGridView1->DataSource)) != tAllData) {
+				dataGridView1->ReadOnly = true;
+			}
+			else {
+				dataGridView1->ReadOnly = false;
+			}
+
+			baseDataSorce = safe_cast<DataTable^>(dataGridView1->DataSource);
+			dataGridView1->DataSource = FilterTable(safe_cast<DataTable^>(dataGridView1->DataSource), comboFiltering->SelectedIndex, textBox1->Text, nullptr);
 		}
 		else {
-			dataGridView1->ReadOnly = false;
-		}
-		
-		baseDataSorce = safe_cast<DataTable^>(dataGridView1->DataSource);
-		dataGridView1->DataSource = FilterTable(safe_cast<DataTable^>(dataGridView1->DataSource), comboFiltering->SelectedIndex, textBox1->Text);
+			if ((safe_cast<DataTable^>(dataGridView1->DataSource)) != tAllData) {
+				dataGridView1->ReadOnly = true;
+			}
+			else {
+				dataGridView1->ReadOnly = false;
+			}
 
-		DefaultButtons(arrButLoverSide);
+			baseDataSorce = safe_cast<DataTable^>(dataGridView1->DataSource);
+			dataGridView1->DataSource = FilterTable(safe_cast<DataTable^>(dataGridView1->DataSource), comboFiltering->SelectedIndex, textBox1->Text, textBox2->Text);
+		}
+		DefaultButtons(arrButLowerSide);
 		show->BackColor = Color::FromArgb(128, 128, 255);
 	}
 	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -549,7 +583,7 @@ namespace TOPD {
 	private: System::Void dataGridView1_SelectionChanged(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void dataGridView1_DataError(System::Object^ sender, System::Windows::Forms::DataGridViewDataErrorEventArgs^ e);
 	private: System::Void dataGridView1_RowEnter(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
-	private: System::Void comboBox1_SelectedValueChanged(System::Object^ sender, System::EventArgs^ e);
+	private: System::Void dataGridView1_NewRowNeeded(System::Object^ sender, System::Windows::Forms::DataGridViewRowEventArgs^ e);
 	
 private: System::Void dataGridView1_Paint(System::Object^ sender, System::Windows::Forms::PaintEventArgs^ e) {
 		MakeFigureRounded(dataGridView1, e);
@@ -609,7 +643,31 @@ private: System::Void dataGridView1_Paint(System::Object^ sender, System::Window
 		MakeFigureRounded(Donut, e);
 	}
 	private: System::Void comboFiltering_SelectionChangeCommitted(System::Object^ sender, System::EventArgs^ e) {
-		//comboFiltering->Items[comboFiltering->SelectedIndex] = 
+		if (comboFiltering->Items[comboFiltering->SelectedIndex]->ToString() == L"Дата прийняття") {
+			label5->Visible = true;
+			label7->Visible = true;
+			textBox2->Visible = true;
+			panel6->Visible = true;
+
+			//default location
+			textBox1->Location = Point(948, 73);
+			panel5->Location = Point(946, 98);
+			show->Location = Point(1241, 70);
+		}
+		else {
+			label5->Visible = false;
+			label7->Visible = false;
+			textBox2->Visible = false;
+			panel6->Visible = false;
+
+			//chanched location
+			textBox1->Location = Point(800, 73);
+			panel5->Location = Point(798, 98);
+			show->Location = Point(941, 70);
+		}
+	}
+	private: System::Void comboFiltering_SelectedValueChanged(System::Object^ sender, System::EventArgs^ e) {
+		
 	}
 };
 }

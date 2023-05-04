@@ -34,6 +34,9 @@ System::Void TOPD::MyForm::dataGridView1_RowLeave(System::Object^ sender, System
 			auto ds = safe_cast<DataTable^>(dataGridView1->DataSource);
 			ds->Rows[e->RowIndex]->Delete();
 		}
+		else if (text == L"Column \'bill_no\' cannot be null" && e->RowIndex == dataGridView1->Rows->Count-3) {
+			tAllData->Rows->RemoveAt(e->RowIndex + 1);
+		}
 		else {
 			MessageBox::Show(ex->Message, L"Unhandled exeption in the dataGridView1_RowLeave", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 		}
@@ -47,6 +50,7 @@ System::Void TOPD::MyForm::dataGridView1_RowEnter(System::Object^ sender, System
 		roomsDA->UpdateCommand->Parameters[4]->Value =
 			Convert::ToInt32(tRoomsData->Rows[e->RowIndex - 1]->ItemArray[0]);
 	}//?????????*/
+	//not allowing to select the last row automatically 
 
 	//skip adding an empy row
 	auto currDataSource = safe_cast<DataTable^>(dataGridView1->DataSource);
@@ -57,12 +61,15 @@ System::Void TOPD::MyForm::dataGridView1_RowEnter(System::Object^ sender, System
 		catch (MySqlException^ ex) {
 			auto text = ex->Message;
 			if (text == L"Field \'bill_no\' doesn\'t have a default value") {
-				MessageBox::Show(L"Заповніть рядок повністю", L"Створення рядка", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+				MessageBox::Show(L"Заповніть рядок повністю", L"Створення рядка", MessageBoxButtons::OK, MessageBoxIcon::Information);
 				auto ds = safe_cast<DataTable^>(dataGridView1->DataSource);
 				ds->Rows[e->RowIndex]->Delete();
 			}
+			else if (text == L"Column \'bill_no\' cannot be null" && e->RowIndex == dataGridView1->Rows->Count - 1) {
+				tAllData->Rows->RemoveAt(e->RowIndex);
+			}
 			else {
-				MessageBox::Show(ex->Message, L"Unhandled exeption in the dataGridView1_RowEnter", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+				MessageBox::Show(ex->Message, L"Unhandled exeption in the dataGridView1_RowEnter", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
 		}
 	}
@@ -102,11 +109,6 @@ System::Void TOPD::MyForm::dataGridView1_DataError(System::Object^ sender, Syste
 }
 
 
-
-System::Void TOPD::MyForm::comboBox1_SelectedValueChanged(System::Object^ sender, System::EventArgs^ e){
-	auto a = comboFiltering->SelectedItem;
-}
-
 System::Void TOPD::MyForm::dataGridView1_CellBeginEdit(System::Object^ sender, System::Windows::Forms::DataGridViewCellCancelEventArgs^ e){
 	auto ds = safe_cast<DataTable^>(dataGridView1->DataSource);
 
@@ -119,4 +121,20 @@ System::Void TOPD::MyForm::dataGridView1_CellBeginEdit(System::Object^ sender, S
 	if (e->ColumnIndex == 0) {
 		e->Cancel = true;
 	}
+}
+
+System::Void TOPD::MyForm::dataGridView1_NewRowNeeded(System::Object^ sender, System::Windows::Forms::DataGridViewRowEventArgs^ e){
+	//auto cnt = dataGridView1->Rows->Count;
+	//auto diff = lastRowSelected - lastSelection;
+	//if (cnt > lastRowSelected &&
+	//	lastRowSelected >= 0 &&
+	//	lastRowSelected != cnt - 1 &&
+	//	dataGridView1->Rows[lastRowSelected + 1]->IsNewRow) {//if the next row is the lower new row
+
+	//	if (cnt <= 2)dataGridView1->CurrentCell = dataGridView1->Rows[cnt - 2]->Cells[1];
+	//	else		 dataGridView1->CurrentCell = dataGridView1->Rows[cnt - 3]->Cells[1];//?
+
+
+	//	return;
+	//}
 }

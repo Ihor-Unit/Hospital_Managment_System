@@ -40,17 +40,27 @@ System::Void TOPD::MyForm::MyForm_Load(System::Object^ sender, System::EventArgs
 	tRoomsData = gcnew DataTable();
 
 	arrButStat = gcnew array<Button^>(4);
-	arrButLoverSide = gcnew array<Button^>(4);
+	arrButLowerSide = gcnew array<Button^>(4);
 
 	arrButStat[0] = button7;
 	arrButStat[1] = button5;
 	arrButStat[2] = button6;
 	arrButStat[3] = button4;
 
-	arrButLoverSide[0] = patients;
-	arrButLoverSide[1] = doctors;
-	arrButLoverSide[2] = rooms;
-	arrButLoverSide[3] = show;
+	arrButLowerSide[0] = patients;
+	arrButLowerSide[1] = doctors;
+	arrButLowerSide[2] = rooms;
+	arrButLowerSide[3] = show;
+
+	label5->Visible = false;
+	label7->Visible = false;
+	textBox2->Visible = false;
+	panel6->Visible = false;
+
+	//chanched location
+	textBox1->Location = Point(800, 73);
+	panel5->Location = Point(798, 98);
+	show->Location = Point(941, 70);
 	////bringing information from the db to the form
 	conn = gcnew MySqlConnection(this->connStr);
 	conn->Open();
