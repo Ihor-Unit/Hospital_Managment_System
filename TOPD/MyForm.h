@@ -129,6 +129,10 @@ namespace TOPD {
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::Panel^ panel6;
 	private: System::Windows::Forms::TextBox^ textBox2;
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ aboutToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ helpToolStripMenuItem;
+
 
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ Donut;
 	protected:
@@ -669,6 +673,12 @@ private: System::Void dataGridView1_Paint(System::Object^ sender, System::Window
 	private: System::Void comboFiltering_SelectedValueChanged(System::Object^ sender, System::EventArgs^ e) {
 		
 	}
+private: System::Void aboutToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	MessageBox::Show(L"Автоматизована система обліку поранених цивільних і військових\n Розробники: \n - Процишин Ігор \n - Слюсаренко Гліб \n - Міщенко Олександр \n - Федорчук Єгор \n - Гайдучок Св\'ятослав", L"About", MessageBoxButtons::OK);
+}
+private: System::Void helpToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	MessageBox::Show(L"Цілодобова допомога: +38(096) 151 8728 Св\'ятослав", L"Help", MessageBoxButtons::OK);
+}
 };
 }
 

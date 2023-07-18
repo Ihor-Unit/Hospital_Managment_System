@@ -53,6 +53,9 @@ void TOPD::MyForm::InitializeComponent(void){
     this->label7 = (gcnew System::Windows::Forms::Label());
     this->label11 = (gcnew System::Windows::Forms::Label());
     this->label5 = (gcnew System::Windows::Forms::Label());
+    this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+    this->aboutToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+    this->helpToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
     (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Donut))->BeginInit();
     this->Civil->SuspendLayout();
@@ -67,6 +70,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->tabControl1->SuspendLayout();
     this->Statistics->SuspendLayout();
     this->TheTable->SuspendLayout();
+    this->menuStrip1->SuspendLayout();
     this->SuspendLayout();
     // 
     // dataGridView1
@@ -674,10 +678,10 @@ void TOPD::MyForm::InitializeComponent(void){
     this->tabControl1->Controls->Add(this->TheTable);
     this->tabControl1->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->tabControl1->Location = System::Drawing::Point(0, 0);
+    this->tabControl1->Location = System::Drawing::Point(0, 25);
     this->tabControl1->Name = L"tabControl1";
     this->tabControl1->SelectedIndex = 0;
-    this->tabControl1->Size = System::Drawing::Size(1509, 645);
+    this->tabControl1->Size = System::Drawing::Size(1509, 653);
     this->tabControl1->TabIndex = 9;
     // 
     // Statistics
@@ -699,7 +703,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->Statistics->Location = System::Drawing::Point(4, 30);
     this->Statistics->Name = L"Statistics";
     this->Statistics->Padding = System::Windows::Forms::Padding(3);
-    this->Statistics->Size = System::Drawing::Size(1501, 611);
+    this->Statistics->Size = System::Drawing::Size(1501, 619);
     this->Statistics->TabIndex = 0;
     this->Statistics->Text = L"Статистика";
     // 
@@ -724,7 +728,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->TheTable->Location = System::Drawing::Point(4, 30);
     this->TheTable->Name = L"TheTable";
     this->TheTable->Padding = System::Windows::Forms::Padding(3);
-    this->TheTable->Size = System::Drawing::Size(1501, 611);
+    this->TheTable->Size = System::Drawing::Size(1501, 619);
     this->TheTable->TabIndex = 1;
     this->TheTable->Text = L"Таблиця";
     // 
@@ -844,6 +848,33 @@ void TOPD::MyForm::InitializeComponent(void){
     this->label5->TabIndex = 11;
     this->label5->Text = L"Показати дані з";
     // 
+    // menuStrip1
+    // 
+    this->menuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
+    this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+        this->aboutToolStripMenuItem,
+            this->helpToolStripMenuItem
+    });
+    this->menuStrip1->Location = System::Drawing::Point(0, 0);
+    this->menuStrip1->Name = L"menuStrip1";
+    this->menuStrip1->Size = System::Drawing::Size(1509, 28);
+    this->menuStrip1->TabIndex = 10;
+    this->menuStrip1->Text = L"menuStrip1";
+    // 
+    // aboutToolStripMenuItem
+    // 
+    this->aboutToolStripMenuItem->Name = L"aboutToolStripMenuItem";
+    this->aboutToolStripMenuItem->Size = System::Drawing::Size(64, 24);
+    this->aboutToolStripMenuItem->Text = L"About";
+    this->aboutToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::aboutToolStripMenuItem_Click);
+    // 
+    // helpToolStripMenuItem
+    // 
+    this->helpToolStripMenuItem->Name = L"helpToolStripMenuItem";
+    this->helpToolStripMenuItem->Size = System::Drawing::Size(55, 24);
+    this->helpToolStripMenuItem->Text = L"Help";
+    this->helpToolStripMenuItem->Click += gcnew System::EventHandler(this, &MyForm::helpToolStripMenuItem_Click);
+    // 
     // MyForm
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -852,8 +883,9 @@ void TOPD::MyForm::InitializeComponent(void){
     this->AutoValidate = System::Windows::Forms::AutoValidate::EnablePreventFocusChange;
     this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
         static_cast<System::Int32>(static_cast<System::Byte>(251)));
-    this->ClientSize = System::Drawing::Size(1509, 643);
+    this->ClientSize = System::Drawing::Size(1509, 666);
     this->Controls->Add(this->tabControl1);
+    this->Controls->Add(this->menuStrip1);
     this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
     this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
     this->MaximumSize = System::Drawing::Size(1900, 1080);
@@ -883,6 +915,9 @@ void TOPD::MyForm::InitializeComponent(void){
     this->Statistics->PerformLayout();
     this->TheTable->ResumeLayout(false);
     this->TheTable->PerformLayout();
+    this->menuStrip1->ResumeLayout(false);
+    this->menuStrip1->PerformLayout();
     this->ResumeLayout(false);
+    this->PerformLayout();
 
 }
