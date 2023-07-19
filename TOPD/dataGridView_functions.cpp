@@ -1,17 +1,22 @@
 ﻿#include "MyForm.h"
 
 System::Void TOPD::MyForm::dataGridView1_RowsRemoved(System::Object^ sender, System::Windows::Forms::DataGridViewRowsRemovedEventArgs^ e) {
-	if (dataGridView1->Focused) {
-		if (dataGridView1->DataSource == tAllData) {//updating dataGrid
-			//patientsDA->Update(safe_cast<DataTable^>(dataGridView1->DataSource));
-			patientsDA->Update(tAllData);
+	try {
+		if (dataGridView1->Focused) {
+			if (dataGridView1->DataSource == tAllData) {//updating dataGrid
+				//patientsDA->Update(safe_cast<DataTable^>(dataGridView1->DataSource));
+				patientsDA->Update(tAllData);
+			}
+			else if (dataGridView1->DataSource == tDoctorData) {
+				doctorsDA->Update(tDoctorData);
+			}
+			else if (dataGridView1->DataSource == tRoomsData) {
+				roomsDA->Update(tRoomsData);
+			}
 		}
-		else if (dataGridView1->DataSource == tDoctorData) {
-			doctorsDA->Update(tDoctorData);
-		}
-		else if (dataGridView1->DataSource == tRoomsData) {
-			roomsDA->Update(tRoomsData);
-		}
+	}
+	catch (MySqlException^ ex) {
+		MessageBox::Show(ex->Message, L"Unhandled exception in the dataGridView1_RowsRemoved", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 	}
 }
 
@@ -25,7 +30,7 @@ System::Void TOPD::MyForm::dataGridView1_RowLeave(System::Object^ sender, System
 
 
 	try {
-		UpdateTheTable();
+		UpdateTheTables();
 	}
 	catch (MySqlException^ ex) {
 		auto text = ex->Message;
@@ -38,7 +43,7 @@ System::Void TOPD::MyForm::dataGridView1_RowLeave(System::Object^ sender, System
 			tAllData->Rows->RemoveAt(e->RowIndex + 1);
 		}
 		else {
-			MessageBox::Show(ex->Message, L"Unhandled exeption in the dataGridView1_RowLeave", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			MessageBox::Show(ex->Message, L"Unhandled exception in the dataGridView1_RowLeave", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 		}
 	}
 	
@@ -56,7 +61,7 @@ System::Void TOPD::MyForm::dataGridView1_RowEnter(System::Object^ sender, System
 	auto currDataSource = safe_cast<DataTable^>(dataGridView1->DataSource);
 	if (currDataSource->Rows->Count >= e->RowIndex) {
 		try {
-			UpdateTheTable();
+			UpdateTheTables();
 		}
 		catch (MySqlException^ ex) {
 			auto text = ex->Message;
@@ -69,7 +74,7 @@ System::Void TOPD::MyForm::dataGridView1_RowEnter(System::Object^ sender, System
 				tAllData->Rows->RemoveAt(e->RowIndex);
 			}
 			else {
-				MessageBox::Show(ex->Message, L"Unhandled exeption in the dataGridView1_RowEnter", MessageBoxButtons::OK, MessageBoxIcon::Error);
+				MessageBox::Show(ex->Message, L"Unhandled exception in the dataGridView1_RowEnter", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
 		}
 	}
@@ -124,17 +129,5 @@ System::Void TOPD::MyForm::dataGridView1_CellBeginEdit(System::Object^ sender, S
 }
 
 System::Void TOPD::MyForm::dataGridView1_NewRowNeeded(System::Object^ sender, System::Windows::Forms::DataGridViewRowEventArgs^ e){
-	//auto cnt = dataGridView1->Rows->Count;
-	//auto diff = lastRowSelected - lastSelection;
-	//if (cnt > lastRowSelected &&
-	//	lastRowSelected >= 0 &&
-	//	lastRowSelected != cnt - 1 &&
-	//	dataGridView1->Rows[lastRowSelected + 1]->IsNewRow) {//if the next row is the lower new row
-
-	//	if (cnt <= 2)dataGridView1->CurrentCell = dataGridView1->Rows[cnt - 2]->Cells[1];
-	//	else		 dataGridView1->CurrentCell = dataGridView1->Rows[cnt - 3]->Cells[1];//?
-
-
-	//	return;
-	//}
+	
 }

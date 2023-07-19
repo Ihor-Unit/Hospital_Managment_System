@@ -191,25 +191,28 @@ namespace TOPD {
 		
 #pragma endregion	
 	//updates the tables are used in the main form
-	private: Void UpdateTheTable() {
-		if (baseDataSorce == tAllData || dataGridView1->DataSource == tAllData) {//updating dataGrid
-			if (tAllData != safe_cast<DataTable^>(dataGridView1->DataSource)) {
-				UpdateBy(tAllData, safe_cast<DataTable^>(dataGridView1->DataSource));
+	private: Void UpdateTheTables() {
+		//try {
+			if (baseDataSorce == tAllData || dataGridView1->DataSource == tAllData) {//updating dataGrid
+				if (tAllData != safe_cast<DataTable^>(dataGridView1->DataSource)) {
+					UpdateBy(tAllData, safe_cast<DataTable^>(dataGridView1->DataSource));
+				}
+				patientsDA->Update(tAllData);
 			}
-			patientsDA->Update(tAllData);
-		}
-		else if (baseDataSorce == tDoctorData || dataGridView1->DataSource == tDoctorData) {
-			if (tDoctorData != safe_cast<DataTable^>(dataGridView1->DataSource)) {
-				UpdateBy(tDoctorData, safe_cast<DataTable^>(dataGridView1->DataSource));
+			else if (baseDataSorce == tDoctorData || dataGridView1->DataSource == tDoctorData) {
+				if (tDoctorData != safe_cast<DataTable^>(dataGridView1->DataSource)) {
+					UpdateBy(tDoctorData, safe_cast<DataTable^>(dataGridView1->DataSource));
+				}
+				doctorsDA->Update(tDoctorData);
 			}
-			doctorsDA->Update(tDoctorData);
-		}
-		else if (baseDataSorce == tRoomsData || dataGridView1->DataSource == tRoomsData) {
-			if (tRoomsData != safe_cast<DataTable^>(dataGridView1->DataSource)) {
-				UpdateBy(tRoomsData, safe_cast<DataTable^>(dataGridView1->DataSource));
+			else if (baseDataSorce == tRoomsData || dataGridView1->DataSource == tRoomsData) {
+				if (tRoomsData != safe_cast<DataTable^>(dataGridView1->DataSource)) {
+					UpdateBy(tRoomsData, safe_cast<DataTable^>(dataGridView1->DataSource));
+				}
+				roomsDA->Update(tRoomsData);
 			}
-			roomsDA->Update(tRoomsData);
-		}
+		//}
+		
 	}
 	private: Void UpdateBy(DataTable^ dest, DataTable^ source) {
 		int cnt{ source->Rows->Count };
@@ -464,7 +467,9 @@ namespace TOPD {
 			return gcnew MySqlDataAdapter(L"SELECT patients.full_name AS \'Повне ім\\'я\', patients.age AS \'Вік\', patients.gender AS \'Стать\', patients.threatment AS \'Лікування\' FROM patients; ", conn);
 		}
 		else if (this->permission == L"Доктор") {
-			return gcnew MySqlDataAdapter(L"SELECT patients.full_name AS \'Повне ім\\'я\', patients.age AS \'Вік\', patients.gender AS \'Стать\', patients.disease as \'Діагноз\', patients.threatment as \'Лікування\', doctors.full_name as \'Ім\\'я доктора\' FROM patients LEFT JOIN doctors ON patients.doctor_id = doctors.doctor_id LEFT JOIN rooms ON patients.room_no = rooms.room_no; ", conn);
+			this->permission = L"Адміністратор";//TODO
+			return gcnew MySqlDataAdapter(L"SELECT patients.id_no, patients.full_name AS \'Повне ім\\'я\', patients.working_field as \'Область\' ,patients.age as \'Вік\', patients.gender as \'Стать\', patients.cause as \'Причина\', patients.disease as \'Діагноз\', patients.threatment as \'Лікування\' ,patients.admission_date as \'Дата прийняття\', patients.bill_no as \'№ рахунку\', patients.doctor_id as \'№ доктора\', patients.room_no as \'Палата\' FROM patients;", conn);
+			//return gcnew MySqlDataAdapter(L"SELECT patients.full_name AS \'Повне ім\\'я\', patients.age AS \'Вік\', patients.gender AS \'Стать\', patients.disease as \'Діагноз\', patients.threatment as \'Лікування\', doctors.full_name as \'Ім\\'я доктора\' FROM patients LEFT JOIN doctors ON patients.doctor_id = doctors.doctor_id LEFT JOIN rooms ON patients.room_no = rooms.room_no; ", conn);
 		}
 	}
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e);

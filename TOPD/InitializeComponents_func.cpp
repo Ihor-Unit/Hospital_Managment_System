@@ -678,10 +678,10 @@ void TOPD::MyForm::InitializeComponent(void){
     this->tabControl1->Controls->Add(this->TheTable);
     this->tabControl1->Font = (gcnew System::Drawing::Font(L"Century Gothic", 10.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
         static_cast<System::Byte>(0)));
-    this->tabControl1->Location = System::Drawing::Point(0, 25);
+    this->tabControl1->Location = System::Drawing::Point(0, 31);
     this->tabControl1->Name = L"tabControl1";
     this->tabControl1->SelectedIndex = 0;
-    this->tabControl1->Size = System::Drawing::Size(1509, 653);
+    this->tabControl1->Size = System::Drawing::Size(1509, 647);
     this->tabControl1->TabIndex = 9;
     // 
     // Statistics
@@ -703,7 +703,7 @@ void TOPD::MyForm::InitializeComponent(void){
     this->Statistics->Location = System::Drawing::Point(4, 30);
     this->Statistics->Name = L"Statistics";
     this->Statistics->Padding = System::Windows::Forms::Padding(3);
-    this->Statistics->Size = System::Drawing::Size(1501, 619);
+    this->Statistics->Size = System::Drawing::Size(1501, 613);
     this->Statistics->TabIndex = 0;
     this->Statistics->Text = L"Статистика";
     // 

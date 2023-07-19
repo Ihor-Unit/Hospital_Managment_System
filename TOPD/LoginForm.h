@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "MyForm.h"
+#include "sha256.h"
 
 namespace TOPD {
 
@@ -255,7 +256,7 @@ namespace TOPD {
 		   }
 #pragma endregion
 	private: System::Boolean SqlCheckUser(String^ user, String^ pass) {
-		this->connStr = "server=" + serverIP + ";port=3306;database=mydb;uid=" + user + ";password=" + pass;
+		this->connStr = "server=" + serverIP + ";port=3306;database=mydb;uid=" + "root" + ";password=" + "1525426189";//TODO
 		MySqlConnection^ conn = gcnew MySqlConnection(this->connStr);
 
 		try {
@@ -274,7 +275,8 @@ namespace TOPD {
 				}
 			}
 		}
-		catch (...) {
+		catch (MySqlException^ ex) {
+			ex;
 			//MessageBox::Show(L"Не вийшло під'єднатися до серверу", L"Помилка", MessageBoxButtons::OK, MessageBoxIcon::Warning);
 			conn->Close();
 			return false;
@@ -296,12 +298,36 @@ namespace TOPD {
 			textBox2->SelectionStart = textBox2->Text->Length;
 		}
 	}
+	private: System::String^ hashPassword(String^ pass) {
+		BYTE b_hash[100];
+
+		for (size_t i{}; i < pass->Length; i++) {
+			b_hash[i] = pass[i];
+		}
+		b_hash[pass->Length] = '\0';
+
+		SHA256_CTX ctx;
+		sha256_init(&ctx);
+		sha256_update(&ctx, b_hash, pass->Length);
+		sha256_final(&ctx, b_hash);
+
+		
+		String^ hash = gcnew String("");
+		for (size_t i{}; i < ctx.datalen; i++) {
+			String^ elem = Convert::ToString(b_hash[i]);
+			hash += elem;
+		}
+
+		return hash;
+	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		SHA256_CTX* sha_passw = new SHA256_CTX();
 		String^ user = textBox1->Text;
 
 		serverIP = textBox3->Text;
 
-		passwd = "1111";//DELETE
+		//passwd = "1111";//DELETE
+		passwd = hashPassword(passwd);
 
 		try {
 			MySqlConnection^ conn = gcnew MySqlConnection("server="+serverIP+";port=3306;database=mydb;uid=testconnection;password=1111");
