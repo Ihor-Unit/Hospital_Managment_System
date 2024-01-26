@@ -1,5 +1,5 @@
 # Screenshots of the program
-<img src="https://user-images.githubusercontent.com/83922932/236143144-cd8d61f3-e846-4d3d-8a96-a12c365cf3de.png" width="500" height="400">
+`<img src="https://user-images.githubusercontent.com/83922932/236143144-cd8d61f3-e846-4d3d-8a96-a12c365cf3de.png" width="500" height="400">`
 <img src="https://user-images.githubusercontent.com/83922932/236143186-0d0e7598-5286-4432-8329-26da75acb60a.png" width="800" height="450">
 <img src="https://user-images.githubusercontent.com/83922932/236144011-7ee679d3-19ad-4a68-af4c-4e8c018bf8d2.png" width="800" height="450">
 <img src="https://user-images.githubusercontent.com/83922932/236144044-548d229d-ec5b-4a79-929b-68d0fff62a36.png" width="800" height="450">
